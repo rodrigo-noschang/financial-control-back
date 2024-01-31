@@ -1,12 +1,11 @@
 import path from "path";
 import { BuildSchemaOptions } from "type-graphql";
 
-import { TestResolver } from "../modules/test/resolvers/TestResolver";
-
+import { ExpensesResolver } from "../modules/expenses/resolvers/ExpensesResolver";
 
 export const schemaConfig: BuildSchemaOptions = {
   resolvers: [
-    TestResolver
+    ExpensesResolver,
   ],
-  emitSchemaFile: path.resolve(__dirname, 'src', 'schema', 'schema.gql'),
+  emitSchemaFile: path.resolve(__dirname, '..', 'schema', 'schema.gql'),
 }

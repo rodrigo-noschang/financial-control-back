@@ -4,6 +4,8 @@
 
 [ ] - Usuário deve ser capaz de cadastrar uma nova despesa dando a ela um nome, dizendo a quantia que foi gasta, data em que foi feita, dizer se é essencial ou não, e se é recorrente ou não. Pode também, opcionalmente, dar-lhe uma observação.
 
+[ ] - Deve ser possível criar novas categorias
+
 ## Listagens e Filtros
 
 [ ] - O usuário deve receber uma listagem de todos as ultimas 15 despesas (com paginação), mostrando todos os dados informados na criação;
@@ -26,6 +28,8 @@
 
 [ ] - Deve ser possível selecionar apenas os gastos não recorrentes do mês que está sendo listado;
 
+[ ] - Deve ser possível listar as categorias
+
 ## Atualização
 
 [ ] - Deve ser possível atualizar os dados de uma despesa, alterando absolutamente tudo;
@@ -33,3 +37,5 @@
 ## Deletar
 
 [ ] - Deve ser possível deletar uma despesa;
+
+[ ] - Deve ser possível deletar uma categoria;
