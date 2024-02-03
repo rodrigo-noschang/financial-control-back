@@ -7,6 +7,7 @@ import { ExpensesPrismaRepository } from '../repositories/prisma/ExpensesReposit
 
 import { CreateExpenseService } from '../services/CreateExpenseService';
 import { ListExpensesPaginatedService } from '../services/ListExpensesPaginatedService';
+import { PaginatedExpenseResponse } from '../../scalars/responses/PaginatedExpenseResponse';
 
 @Resolver()
 export class ExpensesResolver {
@@ -36,15 +37,17 @@ export class ExpensesResolver {
     return newExpense;
   }
 
-  @Query(() => [Expense])
+  @Query(() => PaginatedExpenseResponse)
   async listExpensesPaginated(
     @Arg('page', { nullable: true, defaultValue: 1 }) page?: number
-  ): Promise<ExpenseP[]> {
+  ): Promise<PaginatedExpenseResponse> {
     const prismaRepository = new ExpensesPrismaRepository();
     const listExpenses = new ListExpensesPaginatedService(prismaRepository);
 
-    const expensesList = await listExpenses.execute({ page });
+    const { total, has_more, expenses } = await listExpenses.execute({ page });
 
-    return expensesList;
+    console.log({ total, has_more, expenses });
+
+    return { total, has_more, expenses };
   }
 }

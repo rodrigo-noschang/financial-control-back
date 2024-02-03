@@ -1,8 +1,15 @@
 import { Expense as ExpenseP } from "@prisma/client";
-import { IExpensesRepository } from "../repositories/interfaces/IExpensesRepository";
+
+import { IExpensesRepository, PAGE_LIMIT } from "../repositories/interfaces/IExpensesRepository";
 
 interface IRequest {
   page?: number;
+}
+
+interface IResponse {
+  total: number;
+  has_more: boolean;
+  expenses: ExpenseP[];
 }
 
 export class ListExpensesPaginatedService {
@@ -12,9 +19,17 @@ export class ListExpensesPaginatedService {
 
   async execute({
     page = 1,
-  }: IRequest): Promise<ExpenseP[]> {
-    const paginatedExpenses = await this.expenseRepository.listPaginated(page);
+  }: IRequest): Promise<IResponse> {
+    const total = await this.expenseRepository.countAll();
 
-    return paginatedExpenses;
+    const paginatedExpenses = await this.expenseRepository.listPaginated(page);
+    const listedSoFar = PAGE_LIMIT * page;
+    const has_more = total > listedSoFar;
+
+    return {
+      total,
+      has_more,
+      expenses: paginatedExpenses,
+    };
   }
 }

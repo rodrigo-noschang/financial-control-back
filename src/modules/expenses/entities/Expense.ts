@@ -30,6 +30,6 @@ export class Expense {
   @Field(() => Date)
   updated_at: Date;
 
-  @Field(() => Category, { nullable: true })
+  @Field(() => Category)
   category: Category;
 }

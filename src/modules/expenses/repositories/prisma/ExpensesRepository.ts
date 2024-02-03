@@ -2,9 +2,7 @@ import { Expense as ExpenseP } from "@prisma/client";
 import { prisma } from "../../../../db/prisma";
 
 import { ICreateExpenseDTO } from "../dtos/ICreateExpenseDTO";
-import { IExpensesRepository } from "../interfaces/IExpensesRepository";
-
-export const PAGE_LIMIT = 15;
+import { IExpensesRepository, PAGE_LIMIT } from "../interfaces/IExpensesRepository";
 
 export class ExpensesPrismaRepository implements IExpensesRepository {
   async create(data: ICreateExpenseDTO): Promise<ExpenseP> {
@@ -22,9 +20,15 @@ export class ExpensesPrismaRepository implements IExpensesRepository {
       orderBy: {
         date: 'desc',
       },
+      include: { category: true }
     });
 
     return expenseList;
   }
 
+  async countAll(): Promise<number> {
+    const allExpensesCount = await prisma.expense.count();
+
+    return allExpensesCount;
+  }
 }
