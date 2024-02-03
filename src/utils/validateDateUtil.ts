@@ -1,6 +1,6 @@
 import { AppError } from "../errors";
 
-export default function (dateString: string): Date {
+export function validateDateUtil(dateString: string): Date {
   const date = new Date(dateString);
 
   if (!date.getDate()) {

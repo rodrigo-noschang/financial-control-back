@@ -2,9 +2,9 @@
 
 ## Criação
 
-[ ] - Usuário deve ser capaz de cadastrar uma nova despesa dando a ela um nome, dizendo a quantia que foi gasta, data em que foi feita, dizer se é essencial ou não, e se é recorrente ou não. Pode também, opcionalmente, dar-lhe uma observação.
+[x] - Usuário deve ser capaz de cadastrar uma nova despesa dando a ela um nome (categoria), dizendo a quantia que foi gasta, data em que foi feita, dizer se é essencial ou não, e se é recorrente ou não. Pode também, opcionalmente, dar-lhe uma observação.
 
-[ ] - Deve ser possível criar novas categorias
+[x] - Deve ser possível criar novas categorias
 
 ## Listagens e Filtros
 

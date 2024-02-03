@@ -37,9 +37,14 @@ type Expense {
 }
 
 type Mutation {
+  createCategory(name: String!): Category!
   createExpense(data: CreateExpenseInput!): Expense!
 }
 
+input PaginationInput {
+  page: Float!
+}
+
 type Query {
-  sayHello: String!
+  listExpensesPaginated(pagination: PaginationInput!): [Expense!]!
 }

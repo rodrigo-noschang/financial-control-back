@@ -3,8 +3,10 @@ import { Expense as ExpenseP } from '@prisma/client';
 import { Resolver, Mutation, Arg, Query } from 'type-graphql';
 
 import { CreateExpenseInput } from '../inputs/CreateExpenseInput';
-import { CreateExpenseService } from '../services/CreateExpenseService';
 import { ExpensesPrismaRepository } from '../repositories/prisma/ExpensesRepository';
+
+import { CreateExpenseService } from '../services/CreateExpenseService';
+import { ListExpensesPaginatedService } from '../services/ListExpensesPaginatedService';
 
 @Resolver()
 export class ExpensesResolver {
@@ -34,8 +36,15 @@ export class ExpensesResolver {
     return newExpense;
   }
 
-  @Query(() => String)
-  sayHello(): string {
-    return 'hello';
+  @Query(() => [Expense])
+  async listExpensesPaginated(
+    @Arg('page', { nullable: true, defaultValue: 1 }) page?: number
+  ): Promise<ExpenseP[]> {
+    const prismaRepository = new ExpensesPrismaRepository();
+    const listExpenses = new ListExpensesPaginatedService(prismaRepository);
+
+    const expensesList = await listExpenses.execute({ page });
+
+    return expensesList;
   }
 }

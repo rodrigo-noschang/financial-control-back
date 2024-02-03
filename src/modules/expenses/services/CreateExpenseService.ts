@@ -1,6 +1,6 @@
-import { Expense } from "@prisma/client";
+import { Expense as ExpenseP } from "@prisma/client";
 import { IExpensesRepository } from "../repositories/interfaces/IExpensesRepository";
-import validateDateUtil from "../../../utils/validateDateUtil";
+import { validateDateUtil } from "../../../utils/validateDateUtil";
 
 interface IRequest {
   category_id: string;
@@ -23,7 +23,7 @@ export class CreateExpenseService {
     date,
     essential,
     recurrent,
-  }: IRequest): Promise<Expense> {
+  }: IRequest): Promise<ExpenseP> {
     const formatedDate = validateDateUtil(date);
 
     const newExpense = await this.expenseRepository.create({
