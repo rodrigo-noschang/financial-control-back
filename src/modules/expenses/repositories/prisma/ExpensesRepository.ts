@@ -31,4 +31,31 @@ export class ExpensesPrismaRepository implements IExpensesRepository {
 
     return allExpensesCount;
   }
+
+  async getMonthsValue(start_date: Date, end_date: Date): Promise<ExpenseP[]> {
+    const monthsValues = await prisma.expense.findMany({
+      where: {
+        date: {
+          gte: start_date,
+          lte: end_date
+        },
+      },
+    });
+
+    return monthsValues;
+  }
+
+  async getMonthsEssentialsValue(start_date: Date, end_date: Date): Promise<ExpenseP[]> {
+    const monthsValues = await prisma.expense.findMany({
+      where: {
+        date: {
+          gte: start_date,
+          lte: end_date
+        },
+        essential: true,
+      },
+    });
+
+    return monthsValues;
+  }
 }

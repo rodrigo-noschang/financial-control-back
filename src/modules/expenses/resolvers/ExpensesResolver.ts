@@ -8,6 +8,9 @@ import { ExpensesPrismaRepository } from '../repositories/prisma/ExpensesReposit
 import { CreateExpenseService } from '../services/CreateExpenseService';
 import { ListExpensesPaginatedService } from '../services/ListExpensesPaginatedService';
 import { PaginatedExpenseResponse } from '../../scalars/responses/PaginatedExpenseResponse';
+import { ExpensesTotalsResponse } from '../../scalars/responses/ExpensesTotalsResponse';
+import { GetMonthExpensesValueInput } from '../inputs/GetMonthExpensesValueInput';
+import { GetMonthsExpensesValuesService } from '../services/GetMonthsExpensesValuesService';
 
 @Resolver()
 export class ExpensesResolver {
@@ -46,8 +49,24 @@ export class ExpensesResolver {
 
     const { total, has_more, expenses } = await listExpenses.execute({ page });
 
-    console.log({ total, has_more, expenses });
-
     return { total, has_more, expenses };
+  }
+
+  @Query(() => ExpensesTotalsResponse)
+  async getMonthExpensesValues(
+    @Arg('data') {
+      month_number,
+      end_date,
+    }: GetMonthExpensesValueInput
+  ): Promise<ExpensesTotalsResponse> {
+    const prismaRepository = new ExpensesPrismaRepository();
+    const getExpensesValues = new GetMonthsExpensesValuesService(prismaRepository);
+
+    const { total, essentials, restoio } = await getExpensesValues.execute({
+      month_number,
+      end_date,
+    });
+
+    return { total, essentials, restoio }
   }
 }

@@ -36,6 +36,17 @@ type Expense {
   updated_at: DateTimeISO!
 }
 
+type ExpensesTotalsResponse {
+  essentials: Float!
+  restoio: Float!
+  total: Float!
+}
+
+input GetMonthExpensesValueInput {
+  end_date: Float
+  month_number: Float!
+}
+
 type Mutation {
   createCategory(name: String!): Category!
   createExpense(data: CreateExpenseInput!): Expense!
@@ -48,5 +59,6 @@ type PaginatedExpenseResponse {
 }
 
 type Query {
+  getMonthExpensesValues(data: GetMonthExpensesValueInput!): ExpensesTotalsResponse!
   listExpensesPaginated(page: Float = 1): PaginatedExpenseResponse!
 }
