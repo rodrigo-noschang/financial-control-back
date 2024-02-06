@@ -13,8 +13,11 @@ export class ExpensesPrismaRepository implements IExpensesRepository {
     return newExpense;
   }
 
-  async listPaginated(page: number): Promise<ExpenseP[]> {
+  async listPaginated(start_date: Date, end_date: Date, page: number): Promise<ExpenseP[]> {
     const expenseList = await prisma.expense.findMany({
+      where: {
+        date: { gte: start_date, lte: end_date },
+      },
       skip: (page - 1) * PAGE_LIMIT,
       take: page * PAGE_LIMIT,
       orderBy: {
@@ -26,8 +29,12 @@ export class ExpensesPrismaRepository implements IExpensesRepository {
     return expenseList;
   }
 
-  async countAll(): Promise<number> {
-    const allExpensesCount = await prisma.expense.count();
+  async countAll(start_date: Date, end_date: Date): Promise<number> {
+    const allExpensesCount = await prisma.expense.count({
+      where: {
+        date: { gte: start_date, lte: end_date },
+      },
+    });
 
     return allExpensesCount;
   }
@@ -35,10 +42,7 @@ export class ExpensesPrismaRepository implements IExpensesRepository {
   async getMonthsValue(start_date: Date, end_date: Date): Promise<ExpenseP[]> {
     const monthsValues = await prisma.expense.findMany({
       where: {
-        date: {
-          gte: start_date,
-          lte: end_date
-        },
+        date: { gte: start_date, lte: end_date },
       },
     });
 
@@ -48,10 +52,7 @@ export class ExpensesPrismaRepository implements IExpensesRepository {
   async getMonthsEssentialsValue(start_date: Date, end_date: Date): Promise<ExpenseP[]> {
     const monthsValues = await prisma.expense.findMany({
       where: {
-        date: {
-          gte: start_date,
-          lte: end_date
-        },
+        date: { gte: start_date, lte: end_date },
         essential: true,
       },
     });

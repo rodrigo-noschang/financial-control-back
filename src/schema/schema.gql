@@ -43,8 +43,13 @@ type ExpensesTotalsResponse {
 }
 
 input GetMonthExpensesValueInput {
-  end_date: Float
+  end_day: Float
   month_number: Float!
+}
+
+input ListExpensesPaginatedInput {
+  end_day: Float
+  month_number: Float
 }
 
 type Mutation {
@@ -60,5 +65,5 @@ type PaginatedExpenseResponse {
 
 type Query {
   getMonthExpensesValues(data: GetMonthExpensesValueInput!): ExpensesTotalsResponse!
-  listExpensesPaginated(page: Float = 1): PaginatedExpenseResponse!
+  listExpensesPaginated(interval: ListExpensesPaginatedInput, page: Float = 1): PaginatedExpenseResponse!
 }
