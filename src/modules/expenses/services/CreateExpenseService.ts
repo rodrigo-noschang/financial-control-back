@@ -24,13 +24,13 @@ export class CreateExpenseService {
     essential,
     recurrent,
   }: IRequest): Promise<ExpenseP> {
-    const formatedDate = validateDateUtil(date);
+    const validatedDate = validateDateUtil(date);
 
     const newExpense = await this.expenseRepository.create({
       category_id,
       amount,
       observation,
-      date: formatedDate,
+      date: validatedDate,
       essential,
       recurrent,
     });
