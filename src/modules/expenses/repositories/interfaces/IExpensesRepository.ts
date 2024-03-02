@@ -6,4 +6,6 @@ export const PAGE_LIMIT = 15;
 
 export interface IExpensesRepository {
   create(data: ICreateExpenseDTO): Promise<ExpenseP>;
+  listPaginated(page: number): Promise<ExpenseP[]>;
+  countAll(): Promise<number>;
 }

@@ -2,7 +2,7 @@ import { Expense as ExpenseP } from '@prisma/client';
 import { randomUUID } from 'node:crypto';
 
 import { ICreateExpenseDTO } from "../dtos/ICreateExpenseDTO";
-import { IExpensesRepository } from "../interfaces/IExpensesRepository";
+import { IExpensesRepository, PAGE_LIMIT } from "../interfaces/IExpensesRepository";
 
 export class InMemoryExpensesRepository implements IExpensesRepository {
   private inMemoryDatabase: ExpenseP[] = [];
@@ -23,5 +23,14 @@ export class InMemoryExpensesRepository implements IExpensesRepository {
     this.inMemoryDatabase.push(newExpense);
 
     return newExpense;
+  }
+
+  async listPaginated(page: number): Promise<ExpenseP[]> {
+    const skip = (page - 1) * PAGE_LIMIT;
+    const take = page * PAGE_LIMIT;
+
+    const paginatedExpenses = this.inMemoryDatabase.slice(skip, take);
+
+    return paginatedExpenses;
   }
 }
