@@ -1,6 +1,7 @@
-import { Expense as ExpenseP } from '@prisma/client';
+import { format } from 'date-fns';
 
 import { IExpensesRepository, PAGE_LIMIT } from '../repositories/interfaces/IExpensesRepository';
+import { ExpensesWithFormattedDate } from '../../scalars/responses/ExpensesWithFormattedDate';
 
 interface IRequest {
   page?: number;
@@ -9,7 +10,7 @@ interface IRequest {
 interface IResponse {
   has_more: boolean;
   total: number;
-  expenses: ExpenseP[]
+  expenses: ExpensesWithFormattedDate[]
 }
 
 export class ListPaginatedPastExpensesService {
@@ -21,12 +22,19 @@ export class ListPaginatedPastExpensesService {
     const pastExpenses = await this.expenseRepository.listPaginated(page);
     const totalExpenses = await this.expenseRepository.countAll();
 
+    const expensesPaginatedDate: ExpensesWithFormattedDate[] = pastExpenses.map(expense => {
+      return {
+        ...expense,
+        formatted_date: format(expense.date, 'dd/MM/yyyy'),
+      };
+    })
+
     const has_more = totalExpenses > page * PAGE_LIMIT;
 
     return {
       total: totalExpenses,
       has_more,
-      expenses: pastExpenses,
+      expenses: expensesPaginatedDate,
     };
   }
 }
