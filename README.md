@@ -8,7 +8,7 @@
 
 ## Listagens e Filtros
 
-[ ] - O usuário deve receber uma listagem de todos as ultimas 15 despesas (com paginação), mostrando todos os dados informados na criação (Para facilitar a vida do front, adicionei a contagem total, e uma flag que diz se tem mais expenses) -- formatar data de criação no padrão BR (dd/mm/aaaa);
+[x] - O usuário deve receber uma listagem de todos as ultimas 15 despesas (com paginação), mostrando todos os dados informados na criação (Para facilitar a vida do front, adicionei a contagem total, e uma flag que diz se tem mais expenses) -- formatar data de criação no padrão BR (dd/mm/aaaa);
 
 [ ] - Deve fazer uma contagem dos gastos referentes ao mês atual e, além do valor total, separar a soma dos gastos essenciais e não essenciais;
 

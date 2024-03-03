@@ -29,8 +29,18 @@ export class InMemoryExpensesRepository implements IExpensesRepository {
     const skip = (page - 1) * PAGE_LIMIT;
     const take = page * PAGE_LIMIT;
 
-    const paginatedExpenses = this.inMemoryDatabase.slice(skip, take);
+    const sortedExpenses = this.inMemoryDatabase.sort((a, b) => {
+      return b.date.getTime() - a.date.getTime();
+    });
+
+    const paginatedExpenses = sortedExpenses.slice(skip, take);
 
     return paginatedExpenses;
+  }
+
+  async countAll(): Promise<number> {
+    const expensesCount = this.inMemoryDatabase.length;
+
+    return expensesCount;
   }
 }
