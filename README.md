@@ -10,9 +10,9 @@
 
 [x] - O usuário deve receber uma listagem de todos as ultimas 15 despesas (com paginação), mostrando todos os dados informados na criação (Para facilitar a vida do front, adicionei a contagem total, e uma flag que diz se tem mais expenses) -- formatar data de criação no padrão BR (dd/mm/aaaa);
 
-[ ] - Deve fazer uma contagem dos gastos referentes ao mês atual e, além do valor total, separar a soma dos gastos essenciais e não essenciais;
+[x] - Deve fazer uma contagem dos gastos referentes ao mês atual e, além do valor total, separar a soma dos gastos essenciais e não essenciais;
 
-[ ] - Deve fazer a mesma contagem, com as mesmas separações, mas referentes ao mês anterior;
+[x] - Deve fazer a mesma contagem, com as mesmas separações, mas referentes ao mês anterior;
 
 [ ] - Deve ser possível fazer a mesma contagem, do mês anterior, porém apenas até o dia atual. Se hoje é dia 14/01, deve ser possível obter as somatórias até o dia 14/12 (do ano anterior, obviamente);
 
