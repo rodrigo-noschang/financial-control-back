@@ -1,5 +1,5 @@
-import { Expense as ExpenseP } from '@prisma/client';
 import { randomUUID } from 'node:crypto';
+import { Expense as ExpenseP } from '@prisma/client';
 
 import { ICreateExpenseDTO } from "../dtos/ICreateExpenseDTO";
 import { IExpensesRepository, PAGE_LIMIT } from "../interfaces/IExpensesRepository";
@@ -42,5 +42,29 @@ export class InMemoryExpensesRepository implements IExpensesRepository {
     const expensesCount = this.inMemoryDatabase.length;
 
     return expensesCount;
+  }
+
+  async calculateMonthTotalExpenses(from: Date, to: Date): Promise<number> {
+    const expensesWithinInterval = this.inMemoryDatabase.filter(expense => {
+      return expense.date >= from && expense.date <= to;
+    });
+
+    const totalExpenses = expensesWithinInterval.reduce((acc, curr) => {
+      return acc + curr.amount;
+    }, 0);
+
+    return totalExpenses;
+  }
+
+  async calculateMonthEssentialExpenses(from: Date, to: Date): Promise<number> {
+    const expensesWithinInterval = this.inMemoryDatabase.filter(expense => {
+      return expense.date >= from && expense.date <= to && expense.essential;
+    });
+
+    const essentialExpenses = expensesWithinInterval.reduce((acc, curr) => {
+      return acc + curr.amount;
+    }, 0);
+
+    return essentialExpenses;
   }
 }

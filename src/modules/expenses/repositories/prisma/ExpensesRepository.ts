@@ -17,7 +17,8 @@ export class ExpensesPrismaRepository implements IExpensesRepository {
     const paginatedExpenses = await prisma.expense.findMany({
       take: PAGE_LIMIT,
       skip: (page - 1) * PAGE_LIMIT,
-      orderBy: { date: 'desc' }
+      orderBy: { date: 'desc' },
+      include: { category: true },
     });
 
     return paginatedExpenses;
@@ -27,5 +28,38 @@ export class ExpensesPrismaRepository implements IExpensesRepository {
     const totalExpenses = await prisma.expense.count();
 
     return totalExpenses;
+  }
+
+  async calculateMonthTotalExpenses(from: Date, to: Date): Promise<number> {
+    const totalExpenses = await prisma.expense.aggregate({
+      _sum: {
+        amount: true,
+      },
+      where: {
+        date: {
+          gte: from,
+          lte: to,
+        },
+      },
+    });
+
+    return totalExpenses._sum.amount ?? 0;
+  }
+
+  async calculateMonthEssentialExpenses(from: Date, to: Date): Promise<number> {
+    const essentialExpenses = await prisma.expense.aggregate({
+      _sum: {
+        amount: true,
+      },
+      where: {
+        date: {
+          gte: from,
+          lte: to,
+        },
+        essential: true,
+      },
+    });
+
+    return essentialExpenses._sum.amount ?? 0;
   }
 }

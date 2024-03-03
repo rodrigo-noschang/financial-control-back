@@ -9,6 +9,8 @@ import { CreateExpenseService } from '../services/CreateExpenseService';
 import { ListPaginatedPastExpensesService } from '../services/ListPaginatedPastExpensesService';
 
 import { PaginatedExpenseResponse } from '../../scalars/responses/PaginatedExpenseResponse';
+import { MonthExpensesCalculation } from '../../scalars/responses/MonthExpensesCalculation';
+import CalculateSpecificMonthsExpensesService from '../services/CalculateSpecificMonthsExpensesService';
 
 @Resolver()
 export class ExpensesResolver {
@@ -50,5 +52,25 @@ export class ExpensesResolver {
     });
 
     return paginatedExpenses;
+  }
+
+  @Query(() => MonthExpensesCalculation)
+  async calculateMonthsExpense(
+    @Arg('actual_month_number', { nullable: true }) actual_month_number: number
+  ) {
+    const prismaRepository = new ExpensesPrismaRepository();
+    const calculateMonthsExpense = new CalculateSpecificMonthsExpensesService(prismaRepository);
+
+    const {
+      essentials,
+      rest,
+      total,
+    } = await calculateMonthsExpense.execute({ actual_month_number })
+
+    return {
+      essentials,
+      rest,
+      total,
+    };
   }
 }
