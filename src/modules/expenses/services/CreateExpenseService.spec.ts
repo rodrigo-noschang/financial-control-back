@@ -12,13 +12,10 @@ describe('Create Expense Service', () => {
   });
 
   it('should be able to create a new expense', async () => {
-    const creationDate = new Date('2024-03-01');
-    console.log(creationDate);
-
     const createdExpense = await sut.execute({
       amount: 123,
       category_id: 'category-01',
-      date: creationDate.toString(),
+      date: '2024-03-01',
       essential: true,
       recurrent: true,
     });
