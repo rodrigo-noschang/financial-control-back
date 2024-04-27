@@ -1,9 +1,10 @@
-import { startOfMonth, endOfMonth, setMonth, getMonth } from 'date-fns';
+import { startOfMonth, endOfMonth, setMonth, getMonth, getYear } from 'date-fns';
 
 import { IExpensesRepository } from '../repositories/interfaces/IExpensesRepository';
 
 interface IRequest {
   actual_month_number?: number;
+  year?: number;
 }
 
 interface IResponse {
@@ -17,19 +18,23 @@ export default class CalculateSpecificMonthsExpensesService {
     private expensesRepository: IExpensesRepository,
   ) { }
 
-  async execute({ actual_month_number }: IRequest): Promise<IResponse> {
+  async execute({ actual_month_number, year }: IRequest): Promise<IResponse> {
     const today = new Date();
+    const currentMonthNumber = getMonth(today) + 1;
+    const currentYearNumber = getYear(today);
 
-    let monthNumber = actual_month_number ? actual_month_number - 1 : getMonth(today);
+    let monthNumber = currentMonthNumber;
+    let actualYear = currentYearNumber;
 
-    if (monthNumber < 0 || monthNumber > 11) {
-      monthNumber = getMonth(today);
+    if (actual_month_number && year) {
+      monthNumber = actual_month_number;
+      actualYear = year;
     }
 
-    const expectedMonthDate = setMonth(today, monthNumber);
+    const expectedDate = new Date(`${actualYear}/${monthNumber}/01`);
 
-    const start_of_month = startOfMonth(expectedMonthDate);
-    const end_of_month = endOfMonth(expectedMonthDate);
+    const start_of_month = startOfMonth(expectedDate);
+    const end_of_month = endOfMonth(expectedDate);
 
     const monthsTotalExpenses = await this.expensesRepository.calculateMonthTotalExpenses(
       start_of_month,

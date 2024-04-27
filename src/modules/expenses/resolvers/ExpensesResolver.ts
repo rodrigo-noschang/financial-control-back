@@ -13,6 +13,7 @@ import { MonthExpensesCalculation } from '../../scalars/responses/MonthExpensesC
 import CalculateSpecificMonthsExpensesService from '../services/CalculateSpecificMonthsExpensesService';
 import { CalculatePartialMonthsExpensesInput } from '../inputs/CalculatePartialMonthsExpensesInput';
 import { CalculatePartialMonthsExpensesService } from '../services/CalculatePartialMonthsExpensesService';
+import { CalculateMonthsExpensesInput } from '../inputs/CalculateMonthsExpensesInput';
 
 @Resolver()
 export class ExpensesResolver {
@@ -58,10 +59,8 @@ export class ExpensesResolver {
 
   @Query(() => MonthExpensesCalculation)
   async calculateMonthsExpense(
-    @Arg('actual_month_number', { nullable: true }) actual_month_number: number
+    @Arg('data', { nullable: true }) data: CalculateMonthsExpensesInput
   ) {
-    // TODO: se quiser saber o mês de um outro ano?
-
     const prismaRepository = new ExpensesPrismaRepository();
     const calculateMonthsExpense = new CalculateSpecificMonthsExpensesService(prismaRepository);
 
@@ -69,7 +68,10 @@ export class ExpensesResolver {
       essentials,
       rest,
       total,
-    } = await calculateMonthsExpense.execute({ actual_month_number })
+    } = await calculateMonthsExpense.execute({
+      actual_month_number: data.actual_month_number,
+      year: data.year,
+    });
 
     return {
       essentials,
