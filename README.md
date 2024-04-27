@@ -14,11 +14,15 @@
 
 [x] - Deve fazer a mesma contagem, com as mesmas separações, mas referentes ao mês anterior;
 
-[ ] - Deve ser possível fazer a mesma contagem, do mês anterior, porém apenas até o dia atual. Se hoje é dia 14/01, deve ser possível obter as somatórias até o dia 14/12 (do ano anterior, obviamente);
+[x] - Deve ser possível fazer a mesma contagem, do mês anterior, porém apenas até o dia atual. Se hoje é dia 14/01, deve ser possível obter as somatórias até o dia 14/12 (do ano anterior, obviamente);
 
-[ ] - O usuário deve poder obter a mesma somatória (e listagem de qualquer mês que já tenha passado, também com paginação);
+[x] - O usuário deve poder obter a mesma somatória de qualquer mês que já tenha passado
 
-[ ] - Deve poder selecionar um intervalo de dias referentes a um mês específico, e nessa listagem serão retornados listagem e somatórias.
+[ ] - Deve poder obter a listagem de qualquer mês que já tenha passado, também com paginação;
+
+[ ] - Deve poder obter a listagem de qualquer intervalo de tempo;
+
+[ ] - Deve poder objter a somatória de qualquer intervalo de tempo;
 
 [ ] - Deve ser possível selecionar apenas os gastos essenciais do mês que está sendo listado;
 
