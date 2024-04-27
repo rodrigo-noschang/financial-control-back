@@ -10,4 +10,6 @@ export interface IExpensesRepository {
   countAll(): Promise<number>;
   calculateMonthTotalExpenses(from: Date, to: Date): Promise<number>;
   calculateMonthEssentialExpenses(from: Date, to: Date): Promise<number>;
+  listPaginatedFromSpecificMonth(specific_month_date: Date, page: number): Promise<ExpenseP[]>;
+  countAllFromSpecificMonth(specific_month_date: Date): Promise<number>;
 }

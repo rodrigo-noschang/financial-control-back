@@ -5,7 +5,6 @@ import { AppError } from "../errors";
  * @returns {Date} 
  */
 export function validateDateUtil(dateString: string): Date {
-  // TODO: Test valid Date Util
   const date = new Date(dateString);
   let year, month, day;
 
