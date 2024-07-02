@@ -3,6 +3,8 @@ import { Expense as ExpenseP } from '@prisma/client';
 
 import { ICreateExpenseDTO } from "../dtos/ICreateExpenseDTO";
 import { IExpensesRepository, PAGE_LIMIT } from "../interfaces/IExpensesRepository";
+import { ICountAllFromSpecificMonthDTO } from '../dtos/ICountAllFromSpecificMonthDTO';
+import { IListPaginatedFromSpecificMonthDTO } from '../dtos/IListPaginatedFromSpecificMonthDTO';
 
 export class InMemoryExpensesRepository implements IExpensesRepository {
   private inMemoryDatabase: ExpenseP[] = [];
@@ -66,5 +68,35 @@ export class InMemoryExpensesRepository implements IExpensesRepository {
     }, 0);
 
     return essentialExpenses;
+  }
+
+  async countAllFromSpecificMonth({
+    from,
+    to,
+  }: ICountAllFromSpecificMonthDTO): Promise<number> {
+    const specificMonthExpenses = this.inMemoryDatabase.filter(expense => {
+      return expense.date >= from && expense.date <= to;
+    });
+
+    return specificMonthExpenses.length;
+  }
+
+  async listPaginatedFromSpecificMonth({
+    from,
+    to,
+    page,
+  }: IListPaginatedFromSpecificMonthDTO): Promise<ExpenseP[]> {
+    const skip = (page - 1) * PAGE_LIMIT;
+    const take = page * PAGE_LIMIT;
+
+    const specificMonthExpenses = this.inMemoryDatabase.filter(expense => {
+      return expense.date >= from && expense.date <= to;
+    });
+
+    const sortedExpenses = specificMonthExpenses.sort((a, b) => b.date.getTime() - a.date.getTime());
+
+    const paginatedExpenses = sortedExpenses.slice(skip, take);
+
+    return paginatedExpenses;
   }
 }

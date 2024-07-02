@@ -18,11 +18,11 @@
 
 [x] - O usuário deve poder obter a mesma somatória de qualquer mês que já tenha passado
 
-[ ] - Deve poder obter a listagem de qualquer mês que já tenha passado, também com paginação;
+[x] - Deve poder obter a listagem de qualquer mês que já tenha passado, também com paginação;
 
 [ ] - Deve poder obter a listagem de qualquer intervalo de tempo;
 
-[ ] - Deve poder objter a somatória de qualquer intervalo de tempo;
+[ ] - Deve poder obter a somatória de qualquer intervalo de tempo;
 
 [ ] - Deve ser possível selecionar apenas os gastos essenciais do mês que está sendo listado;
 

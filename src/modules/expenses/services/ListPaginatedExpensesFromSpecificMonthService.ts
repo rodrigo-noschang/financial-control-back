@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, startOfMonth, endOfMonth } from "date-fns";
 import { ExpensesWithFormattedDate } from "../../scalars/responses/ExpensesWithFormattedDate";
 import { IExpensesRepository, PAGE_LIMIT } from "../repositories/interfaces/IExpensesRepository";
 
@@ -22,14 +22,20 @@ export class ListPaginatedExpensesFromSpecificMonthService {
     specific_month_date,
     page = 1,
   }: IRequest): Promise<IResponse> {
-    const paginatedExpensesCount = await this.expensesRepository.countAllFromSpecificMonth(
-      new Date(specific_month_date)
-    );
+    const specificDate = new Date(specific_month_date);
+    const startOfSpecificMonth = startOfMonth(specificDate);
+    const endOfSpecificMonth = endOfMonth(specificDate);
 
-    const paginatedExpenses = await this.expensesRepository.listPaginatedFromSpecificMonth(
-      new Date(specific_month_date),
+    const paginatedExpensesCount = await this.expensesRepository.countAllFromSpecificMonth({
+      from: startOfSpecificMonth,
+      to: endOfSpecificMonth,
+    });
+
+    const paginatedExpenses = await this.expensesRepository.listPaginatedFromSpecificMonth({
+      from: startOfSpecificMonth,
+      to: endOfSpecificMonth,
       page
-    );
+    });
 
     const expensesWithFormattedDate: ExpensesWithFormattedDate[] = paginatedExpenses.map(expense => {
       return {

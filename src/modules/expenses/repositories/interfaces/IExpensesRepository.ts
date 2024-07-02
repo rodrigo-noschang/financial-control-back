@@ -1,6 +1,8 @@
-import { Expense as ExpenseP, Prisma } from '@prisma/client';
+import { Expense as ExpenseP } from '@prisma/client';
 
 import { ICreateExpenseDTO } from "../dtos/ICreateExpenseDTO";
+import { ICountAllFromSpecificMonthDTO } from '../dtos/ICountAllFromSpecificMonthDTO';
+import { IListPaginatedFromSpecificMonthDTO } from '../dtos/IListPaginatedFromSpecificMonthDTO';
 
 export const PAGE_LIMIT = 15;
 
@@ -10,6 +12,6 @@ export interface IExpensesRepository {
   countAll(): Promise<number>;
   calculateMonthTotalExpenses(from: Date, to: Date): Promise<number>;
   calculateMonthEssentialExpenses(from: Date, to: Date): Promise<number>;
-  listPaginatedFromSpecificMonth(specific_month_date: Date, page: number): Promise<ExpenseP[]>;
-  countAllFromSpecificMonth(specific_month_date: Date): Promise<number>;
+  listPaginatedFromSpecificMonth(data: IListPaginatedFromSpecificMonthDTO): Promise<ExpenseP[]>;
+  countAllFromSpecificMonth(data: ICountAllFromSpecificMonthDTO): Promise<number>;
 }
