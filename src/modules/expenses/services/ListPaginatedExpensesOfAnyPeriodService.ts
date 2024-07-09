@@ -5,6 +5,8 @@ import { IExpensesRepository, PAGE_LIMIT } from "../repositories/interfaces/IExp
 interface IRequest {
   start_date: string;
   end_date: string;
+  essentials_only?: boolean;
+  rest_only?: boolean;
   page?: number;
 }
 
@@ -23,18 +25,24 @@ export class ListPaginatedExpensesOfAnyPeriodService {
     start_date,
     end_date,
     page = 1,
+    essentials_only = false,
+    rest_only = false,
   }: IRequest): Promise<IResponse> {
     const startDate = startOfDay(new Date(start_date));
     const endDate = endOfDay(new Date(end_date));
 
-    const periodExpensesCount = await this.expensesRepository.countAllInPeriod({
+    const periodExpensesCount = await this.expensesRepository.countInPeriod({
       from: startDate,
       to: endDate,
+      essentials_only,
+      rest_only,
     });
 
     const periodExpenses = await this.expensesRepository.listPaginatedInPeriod({
       from: startDate,
       to: endDate,
+      essentials_only,
+      rest_only,
       page,
     });
 

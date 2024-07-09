@@ -24,9 +24,9 @@
 
 [x] - Deve poder obter a somatória de qualquer intervalo de tempo;
 
-[ ] - Deve ser possível selecionar apenas os gastos essenciais do período que está sendo listado;
+[x] - Deve ser possível selecionar apenas os gastos essenciais do período que está sendo listado;
 
-[ ] - Deve ser possível selecionar apenas os gastos não essenciais do período que está sendo listado;
+[x] - Deve ser possível selecionar apenas os gastos não essenciais do período que está sendo listado;
 
 [ ] - Deve ser possível selecionar apenas os gastos recorrentes do período que está sendo listado;
 

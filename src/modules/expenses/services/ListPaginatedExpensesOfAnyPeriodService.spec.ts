@@ -104,4 +104,73 @@ describe('List Paginated Expenses Of Any Period Service', () => {
     expect(expenses).toHaveLength(15);
     expect(expenses[0].amount).toBe(15);
   });
+
+  it('should list only essentials', async () => {
+    for (let i = 0; i < 20; i++) {
+      await expensesRepository.create({
+        ...mockedExpense,
+        essential: i % 2 === 0,
+        amount: 5,
+        date: new Date('2024/05/10'),
+      });
+    }
+
+    const { expenses, has_more, total } = await sut.execute({
+      start_date: '2024/05/10',
+      end_date: '2024/05/15',
+      essentials_only: true,
+      page: 1,
+    });
+
+    expect(total).toBe(10);
+    expect(has_more).toBe(false);
+    expect(expenses).toHaveLength(10);
+    expect(expenses[0].essential).toBe(true);
+  });
+
+  it('should list only rests', async () => {
+    for (let i = 0; i < 35; i++) {
+      await expensesRepository.create({
+        ...mockedExpense,
+        essential: i % 2 === 0,
+        amount: 5,
+        date: new Date('2024/05/10'),
+      });
+    }
+
+    const { expenses, has_more, total } = await sut.execute({
+      start_date: '2024/05/10',
+      end_date: '2024/05/15',
+      rest_only: true,
+      page: 1,
+    });
+
+    expect(total).toBe(17);
+    expect(has_more).toBe(true);
+    expect(expenses).toHaveLength(15);
+    expect(expenses[0].essential).toBe(false);
+  });
+
+  it('should ignore filters if essentials_only and rest_only are both true', async () => {
+    for (let i = 0; i < 20; i++) {
+      await expensesRepository.create({
+        ...mockedExpense,
+        essential: i % 2 === 0,
+        amount: 5,
+        date: new Date('2024/05/10'),
+      });
+    }
+
+    const { expenses, has_more, total } = await sut.execute({
+      start_date: '2024/05/10',
+      end_date: '2024/05/15',
+      rest_only: true,
+      essentials_only: true,
+      page: 1,
+    });
+
+    expect(total).toBe(20);
+    expect(has_more).toBe(true);
+    expect(expenses).toHaveLength(15);
+  });
 });

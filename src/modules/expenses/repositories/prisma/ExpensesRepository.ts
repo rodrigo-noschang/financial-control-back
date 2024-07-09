@@ -65,13 +65,29 @@ export class ExpensesPrismaRepository implements IExpensesRepository {
     return essentialExpenses._sum.amount ?? 0;
   }
 
-  async countAllInPeriod({ from, to }: ICountAllFromSpecificMonthDTO): Promise<number> {
+  async countInPeriod({
+    from,
+    to,
+    essentials_only,
+    rest_only,
+  }: ICountAllFromSpecificMonthDTO): Promise<number> {
+    let filter: any = {};
+
+    if (essentials_only && !rest_only) {
+      filter = { essential: true }
+    }
+
+    if (!essentials_only && rest_only) {
+      filter = { essential: false }
+    }
+
     const expensesCount = await prisma.expense.count({
       where: {
         date: {
           gte: from,
           lte: to,
         },
+        ...filter,
       },
     });
 
@@ -81,14 +97,27 @@ export class ExpensesPrismaRepository implements IExpensesRepository {
   async listPaginatedInPeriod({
     from,
     to,
+    essentials_only,
+    rest_only,
     page,
   }: IListPaginatedFromSpecificMonthDTO): Promise<ExpenseP[]> {
+    let filter: any = {};
+
+    if (essentials_only && !rest_only) {
+      filter = { essential: true }
+    }
+
+    if (!essentials_only && rest_only) {
+      filter = { essential: false }
+    }
+
     const expenses = await prisma.expense.findMany({
       where: {
         date: {
           gte: from,
           lte: to,
         },
+        ...filter,
       },
       take: page * PAGE_LIMIT,
       skip: (page - 1) * PAGE_LIMIT,

@@ -70,20 +70,44 @@ export class InMemoryExpensesRepository implements IExpensesRepository {
     return essentialExpenses;
   }
 
-  async countAllInPeriod({
+  async countInPeriod({
     from,
     to,
+    essentials_only,
+    rest_only,
   }: ICountAllFromSpecificMonthDTO): Promise<number> {
-    const specificMonthExpenses = this.inMemoryDatabase.filter(expense => {
+    const expenseCountInPeriod = this.inMemoryDatabase.filter(expense => {
       return expense.date >= from && expense.date <= to;
     });
 
-    return specificMonthExpenses.length;
+    if (essentials_only && rest_only) {
+      return expenseCountInPeriod.length;
+    }
+
+    if (essentials_only) {
+      const essentialsOnly = expenseCountInPeriod.filter(expense => {
+        return expense.essential;
+      });
+
+      return essentialsOnly.length;
+    }
+
+    if (rest_only) {
+      const restOnly = expenseCountInPeriod.filter(expense => {
+        return !expense.essential;
+      });
+
+      return restOnly.length;
+    }
+
+    return expenseCountInPeriod.length;
   }
 
   async listPaginatedInPeriod({
     from,
     to,
+    essentials_only,
+    rest_only,
     page,
   }: IListPaginatedFromSpecificMonthDTO): Promise<ExpenseP[]> {
     const skip = (page - 1) * PAGE_LIMIT;
@@ -96,6 +120,26 @@ export class InMemoryExpensesRepository implements IExpensesRepository {
     const sortedExpenses = specificMonthExpenses.sort((a, b) => b.date.getTime() - a.date.getTime());
 
     const paginatedExpenses = sortedExpenses.slice(skip, take);
+
+    if (essentials_only && rest_only) {
+      return paginatedExpenses;
+    }
+
+    if (essentials_only) {
+      const essentialsOnly = sortedExpenses.filter(expense => {
+        return expense.essential;
+      });
+
+      return essentialsOnly.slice(skip, take);
+    }
+
+    if (rest_only) {
+      const restOnly = sortedExpenses.filter(expense => {
+        return !expense.essential;
+      });
+
+      return restOnly.slice(skip, take);
+    }
 
     return paginatedExpenses;
   }
