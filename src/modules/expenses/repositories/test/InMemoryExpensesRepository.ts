@@ -46,7 +46,7 @@ export class InMemoryExpensesRepository implements IExpensesRepository {
     return expensesCount;
   }
 
-  async calculateMonthTotalExpenses(from: Date, to: Date): Promise<number> {
+  async calculatePeriodTotalExpenses(from: Date, to: Date): Promise<number> {
     const expensesWithinInterval = this.inMemoryDatabase.filter(expense => {
       return expense.date >= from && expense.date <= to;
     });
@@ -58,7 +58,7 @@ export class InMemoryExpensesRepository implements IExpensesRepository {
     return totalExpenses;
   }
 
-  async calculateMonthEssentialExpenses(from: Date, to: Date): Promise<number> {
+  async calculatePeriodEssentialExpenses(from: Date, to: Date): Promise<number> {
     const expensesWithinInterval = this.inMemoryDatabase.filter(expense => {
       return expense.date >= from && expense.date <= to && expense.essential;
     });
@@ -70,7 +70,7 @@ export class InMemoryExpensesRepository implements IExpensesRepository {
     return essentialExpenses;
   }
 
-  async countAllFromSpecificMonth({
+  async countAllInPeriod({
     from,
     to,
   }: ICountAllFromSpecificMonthDTO): Promise<number> {
@@ -81,7 +81,7 @@ export class InMemoryExpensesRepository implements IExpensesRepository {
     return specificMonthExpenses.length;
   }
 
-  async listPaginatedFromSpecificMonth({
+  async listPaginatedInPeriod({
     from,
     to,
     page,

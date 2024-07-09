@@ -26,12 +26,12 @@ export class ListPaginatedExpensesFromSpecificMonthService {
     const startOfSpecificMonth = startOfMonth(specificDate);
     const endOfSpecificMonth = endOfMonth(specificDate);
 
-    const paginatedExpensesCount = await this.expensesRepository.countAllFromSpecificMonth({
+    const paginatedExpensesCount = await this.expensesRepository.countAllInPeriod({
       from: startOfSpecificMonth,
       to: endOfSpecificMonth,
     });
 
-    const paginatedExpenses = await this.expensesRepository.listPaginatedFromSpecificMonth({
+    const paginatedExpenses = await this.expensesRepository.listPaginatedInPeriod({
       from: startOfSpecificMonth,
       to: endOfSpecificMonth,
       page

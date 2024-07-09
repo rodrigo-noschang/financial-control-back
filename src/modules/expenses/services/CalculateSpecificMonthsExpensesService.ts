@@ -36,12 +36,12 @@ export default class CalculateSpecificMonthsExpensesService {
     const start_of_month = startOfMonth(expectedDate);
     const end_of_month = endOfMonth(expectedDate);
 
-    const monthsTotalExpenses = await this.expensesRepository.calculateMonthTotalExpenses(
+    const monthsTotalExpenses = await this.expensesRepository.calculatePeriodTotalExpenses(
       start_of_month,
       end_of_month,
     );
 
-    const monthsEssentialExpenses = await this.expensesRepository.calculateMonthEssentialExpenses(
+    const monthsEssentialExpenses = await this.expensesRepository.calculatePeriodEssentialExpenses(
       start_of_month,
       end_of_month,
     );

@@ -20,17 +20,17 @@
 
 [x] - Deve poder obter a listagem de qualquer mês que já tenha passado, também com paginação;
 
-[ ] - Deve poder obter a listagem de qualquer intervalo de tempo;
+[x] - Deve poder obter a listagem de qualquer intervalo de tempo;
 
-[ ] - Deve poder obter a somatória de qualquer intervalo de tempo;
+[x] - Deve poder obter a somatória de qualquer intervalo de tempo;
 
-[ ] - Deve ser possível selecionar apenas os gastos essenciais do mês que está sendo listado;
+[ ] - Deve ser possível selecionar apenas os gastos essenciais do período que está sendo listado;
 
-[ ] - Deve ser possível selecionar apenas os gastos não essenciais do mês que está sendo listado;
+[ ] - Deve ser possível selecionar apenas os gastos não essenciais do período que está sendo listado;
 
-[ ] - Deve ser possível selecionar apenas os gastos recorrentes do mês que está sendo listado;
+[ ] - Deve ser possível selecionar apenas os gastos recorrentes do período que está sendo listado;
 
-[ ] - Deve ser possível selecionar apenas os gastos não recorrentes do mês que está sendo listado;
+[ ] - Deve ser possível selecionar apenas os gastos não recorrentes do período que está sendo listado;
 
 [ ] - Deve ser possível listar as categorias
 

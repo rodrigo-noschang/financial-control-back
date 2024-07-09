@@ -32,12 +32,12 @@ export class CalculatePartialMonthsExpensesService {
 
     const partialCalculationStart = startOfMonth(partialCalculationEnd);
 
-    const partialMonthsTotalExpenses = await this.expensesRepository.calculateMonthTotalExpenses(
+    const partialMonthsTotalExpenses = await this.expensesRepository.calculatePeriodTotalExpenses(
       partialCalculationStart,
       partialCalculationEnd
     );
 
-    const partialMonthsEssentialsExpenses = await this.expensesRepository.calculateMonthEssentialExpenses(
+    const partialMonthsEssentialsExpenses = await this.expensesRepository.calculatePeriodEssentialExpenses(
       partialCalculationStart,
       partialCalculationEnd
     );
