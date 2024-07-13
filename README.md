@@ -32,7 +32,9 @@
 
 [x] - Deve ser possível selecionar apenas os gastos não recorrentes do período que está sendo listado;
 
-[ ] - Deve ser possível listar as categorias
+[ ] - Deve ser possível listar as categorias em ordem alfabética;
+
+[ ] - Deve ser possível pesquisar por uma categoria;
 
 ## Atualização
 

@@ -7,7 +7,7 @@ import { ICountAllFromSpecificMonthDTO } from '../dtos/ICountAllFromSpecificMont
 import { IListPaginatedFromSpecificMonthDTO } from '../dtos/IListPaginatedFromSpecificMonthDTO';
 
 export class InMemoryExpensesRepository implements IExpensesRepository {
-  public inMemoryDatabase: ExpenseP[] = [];
+  private inMemoryDatabase: ExpenseP[] = [];
 
   async create(data: ICreateExpenseDTO): Promise<ExpenseP> {
     const newExpense: ExpenseP = {

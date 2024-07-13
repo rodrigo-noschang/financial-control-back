@@ -1,5 +1,7 @@
-import { Category as CategoryP } from '@prisma/client';
+import { Category } from '@prisma/client';
 
 export interface ICategoriesRepository {
-  create(name: string): Promise<CategoryP>;
+  create(name: string): Promise<Category>;
+  countAll(): Promise<number>;
+  listPaginated(page: number): Promise<Category[]>;
 }
