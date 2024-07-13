@@ -70,15 +70,25 @@ export class ExpensesPrismaRepository implements IExpensesRepository {
     to,
     essentials_only,
     rest_only,
+    non_recurrent_only,
+    recurrent_only,
   }: ICountAllFromSpecificMonthDTO): Promise<number> {
     let filter: any = {};
 
     if (essentials_only && !rest_only) {
-      filter = { essential: true }
+      Object.assign(filter, { essential: true });
     }
 
     if (!essentials_only && rest_only) {
-      filter = { essential: false }
+      Object.assign(filter, { essential: false });
+    }
+
+    if (recurrent_only && !non_recurrent_only) {
+      Object.assign(filter, { recurrent: true });
+    }
+
+    if (!recurrent_only && non_recurrent_only) {
+      Object.assign(filter, { recurrent: false });
     }
 
     const expensesCount = await prisma.expense.count({
@@ -99,6 +109,8 @@ export class ExpensesPrismaRepository implements IExpensesRepository {
     to,
     essentials_only,
     rest_only,
+    non_recurrent_only,
+    recurrent_only,
     page,
   }: IListPaginatedFromSpecificMonthDTO): Promise<ExpenseP[]> {
     let filter: any = {};

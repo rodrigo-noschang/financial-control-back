@@ -173,4 +173,94 @@ describe('List Paginated Expenses Of Any Period Service', () => {
     expect(has_more).toBe(true);
     expect(expenses).toHaveLength(15);
   });
+
+  it('should list only recurrent expenses', async () => {
+    for (let i = 0; i < 20; i++) {
+      await expensesRepository.create({
+        ...mockedExpense,
+        essential: i % 2 === 0,
+        recurrent: i % 2 !== 0,
+        amount: 5,
+        date: new Date('2024/05/10'),
+      });
+    }
+
+    const { expenses, has_more, total } = await sut.execute({
+      start_date: '2024/05/10',
+      end_date: '2024/05/11',
+      recurrent_only: true,
+    });
+
+    expect(total).toBe(10);
+    expect(has_more).toBe(false);
+    expect(expenses).toHaveLength(10);
+  });
+
+  it('should list only non recurrent expenses', async () => {
+    for (let i = 0; i < 20; i++) {
+      await expensesRepository.create({
+        ...mockedExpense,
+        essential: i % 2 === 0,
+        recurrent: i % 2 !== 0,
+        amount: 5,
+        date: new Date('2024/05/10'),
+      });
+    }
+
+    const { expenses, has_more, total } = await sut.execute({
+      start_date: '2024/05/10',
+      end_date: '2024/05/11',
+      non_recurrent_only: true,
+    });
+
+    expect(total).toBe(10);
+    expect(has_more).toBe(false);
+    expect(expenses).toHaveLength(10);
+  });
+
+  it('should ignore filters if recurrent_only and non_recurrent_only are both true', async () => {
+    for (let i = 0; i < 20; i++) {
+      await expensesRepository.create({
+        ...mockedExpense,
+        essential: i % 2 === 0,
+        recurrent: i % 2 !== 0,
+        amount: 5,
+        date: new Date('2024/05/10'),
+      });
+    }
+
+    const { expenses, has_more, total } = await sut.execute({
+      start_date: '2024/05/10',
+      end_date: '2024/05/11',
+      recurrent_only: true,
+      non_recurrent_only: true,
+    });
+
+    expect(total).toBe(20);
+    expect(has_more).toBe(true);
+    expect(expenses).toHaveLength(15);
+  });
+
+  it('should apply filter for both recurrent and essentials', async () => {
+    for (let i = 0; i < 20; i++) {
+      await expensesRepository.create({
+        ...mockedExpense,
+        essential: i % 2 === 0,
+        recurrent: i % 4 === 0,
+        amount: 5,
+        date: new Date('2024/05/10'),
+      });
+    }
+
+    const { expenses, has_more, total } = await sut.execute({
+      start_date: '2024/05/10',
+      end_date: '2024/05/11',
+      recurrent_only: true,
+      essentials_only: true,
+    });
+
+    expect(total).toBe(5);
+    expect(has_more).toBe(false);
+    expect(expenses).toHaveLength(5);
+  })
 });

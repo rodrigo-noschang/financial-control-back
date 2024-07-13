@@ -7,7 +7,7 @@ import { ICountAllFromSpecificMonthDTO } from '../dtos/ICountAllFromSpecificMont
 import { IListPaginatedFromSpecificMonthDTO } from '../dtos/IListPaginatedFromSpecificMonthDTO';
 
 export class InMemoryExpensesRepository implements IExpensesRepository {
-  private inMemoryDatabase: ExpenseP[] = [];
+  public inMemoryDatabase: ExpenseP[] = [];
 
   async create(data: ICreateExpenseDTO): Promise<ExpenseP> {
     const newExpense: ExpenseP = {
@@ -75,29 +75,35 @@ export class InMemoryExpensesRepository implements IExpensesRepository {
     to,
     essentials_only,
     rest_only,
+    non_recurrent_only,
+    recurrent_only,
   }: ICountAllFromSpecificMonthDTO): Promise<number> {
-    const expenseCountInPeriod = this.inMemoryDatabase.filter(expense => {
+    let expenseCountInPeriod = this.inMemoryDatabase.filter(expense => {
       return expense.date >= from && expense.date <= to;
     });
 
-    if (essentials_only && rest_only) {
-      return expenseCountInPeriod.length;
-    }
-
-    if (essentials_only) {
-      const essentialsOnly = expenseCountInPeriod.filter(expense => {
+    if (essentials_only && !rest_only) {
+      expenseCountInPeriod = expenseCountInPeriod.filter(expense => {
         return expense.essential;
       });
-
-      return essentialsOnly.length;
     }
 
-    if (rest_only) {
-      const restOnly = expenseCountInPeriod.filter(expense => {
+    if (!essentials_only && rest_only) {
+      expenseCountInPeriod = expenseCountInPeriod.filter(expense => {
         return !expense.essential;
       });
+    }
 
-      return restOnly.length;
+    if (recurrent_only && !non_recurrent_only) {
+      expenseCountInPeriod = expenseCountInPeriod.filter(expense => {
+        return expense.recurrent;
+      });
+    }
+
+    if (!recurrent_only && non_recurrent_only) {
+      expenseCountInPeriod = expenseCountInPeriod.filter(expense => {
+        return !expense.recurrent;
+      });
     }
 
     return expenseCountInPeriod.length;
@@ -108,6 +114,8 @@ export class InMemoryExpensesRepository implements IExpensesRepository {
     to,
     essentials_only,
     rest_only,
+    non_recurrent_only,
+    recurrent_only,
     page,
   }: IListPaginatedFromSpecificMonthDTO): Promise<ExpenseP[]> {
     const skip = (page - 1) * PAGE_LIMIT;
@@ -117,29 +125,33 @@ export class InMemoryExpensesRepository implements IExpensesRepository {
       return expense.date >= from && expense.date <= to;
     });
 
-    const sortedExpenses = specificMonthExpenses.sort((a, b) => b.date.getTime() - a.date.getTime());
+    let sortedExpenses = specificMonthExpenses.sort((a, b) => b.date.getTime() - a.date.getTime());
 
-    const paginatedExpenses = sortedExpenses.slice(skip, take);
-
-    if (essentials_only && rest_only) {
-      return paginatedExpenses;
-    }
-
-    if (essentials_only) {
-      const essentialsOnly = sortedExpenses.filter(expense => {
+    if (essentials_only && !rest_only) {
+      sortedExpenses = sortedExpenses.filter(expense => {
         return expense.essential;
       });
-
-      return essentialsOnly.slice(skip, take);
     }
 
-    if (rest_only) {
-      const restOnly = sortedExpenses.filter(expense => {
+    if (!essentials_only && rest_only) {
+      sortedExpenses = sortedExpenses.filter(expense => {
         return !expense.essential;
       });
-
-      return restOnly.slice(skip, take);
     }
+
+    if (recurrent_only && !non_recurrent_only) {
+      sortedExpenses = sortedExpenses.filter(expense => {
+        return expense.recurrent;
+      });
+    }
+
+    if (!recurrent_only && non_recurrent_only) {
+      sortedExpenses = sortedExpenses.filter(expense => {
+        return !expense.recurrent;
+      });
+    }
+
+    const paginatedExpenses = sortedExpenses.slice(skip, take)
 
     return paginatedExpenses;
   }

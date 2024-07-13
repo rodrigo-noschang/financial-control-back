@@ -28,9 +28,9 @@
 
 [x] - Deve ser possível selecionar apenas os gastos não essenciais do período que está sendo listado;
 
-[ ] - Deve ser possível selecionar apenas os gastos recorrentes do período que está sendo listado;
+[x] - Deve ser possível selecionar apenas os gastos recorrentes do período que está sendo listado;
 
-[ ] - Deve ser possível selecionar apenas os gastos não recorrentes do período que está sendo listado;
+[x] - Deve ser possível selecionar apenas os gastos não recorrentes do período que está sendo listado;
 
 [ ] - Deve ser possível listar as categorias
 

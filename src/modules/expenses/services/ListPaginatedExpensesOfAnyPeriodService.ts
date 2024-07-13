@@ -7,6 +7,8 @@ interface IRequest {
   end_date: string;
   essentials_only?: boolean;
   rest_only?: boolean;
+  recurrent_only?: boolean;
+  non_recurrent_only?: boolean;
   page?: number;
 }
 
@@ -27,6 +29,8 @@ export class ListPaginatedExpensesOfAnyPeriodService {
     page = 1,
     essentials_only = false,
     rest_only = false,
+    non_recurrent_only = false,
+    recurrent_only = false,
   }: IRequest): Promise<IResponse> {
     const startDate = startOfDay(new Date(start_date));
     const endDate = endOfDay(new Date(end_date));
@@ -36,6 +40,8 @@ export class ListPaginatedExpensesOfAnyPeriodService {
       to: endDate,
       essentials_only,
       rest_only,
+      recurrent_only,
+      non_recurrent_only,
     });
 
     const periodExpenses = await this.expensesRepository.listPaginatedInPeriod({
@@ -43,6 +49,8 @@ export class ListPaginatedExpensesOfAnyPeriodService {
       to: endDate,
       essentials_only,
       rest_only,
+      recurrent_only,
+      non_recurrent_only,
       page,
     });
 
