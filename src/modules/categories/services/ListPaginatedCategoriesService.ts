@@ -5,6 +5,7 @@ import { PAGE_LIMIT } from '../../expenses/repositories/interfaces/IExpensesRepo
 
 interface IRequest {
   page: number;
+  search?: string;
 }
 
 interface IResponse {
@@ -16,10 +17,13 @@ interface IResponse {
 export class ListPaginatedCategoriesService {
   constructor(private categoriesRepository: ICategoriesRepository) { }
 
-  async execute({ page }: IRequest): Promise<IResponse> {
-    const categoriesCount = await this.categoriesRepository.countAll();
+  async execute({ page, search }: IRequest): Promise<IResponse> {
+    const categoriesCount = await this.categoriesRepository.countAll(search);
 
-    const categoriesList = await this.categoriesRepository.listPaginated(page);
+    const categoriesList = await this.categoriesRepository.listPaginated({
+      page,
+      search,
+    });
 
     return {
       categories: categoriesList,

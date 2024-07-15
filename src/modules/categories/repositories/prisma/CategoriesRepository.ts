@@ -3,6 +3,7 @@ import { Category as CategoryP } from '@prisma/client';
 import { prisma } from "../../../../db/prisma";
 import { ICategoriesRepository } from "../interface/ICategoriesRepository";
 import { PAGE_LIMIT } from '../../../expenses/repositories/interfaces/IExpensesRepository';
+import { IListPaginatedCategoriesDTO } from '../dtos/IListPaginatedCategoriesDTO';
 
 export class CategoriesRepository implements ICategoriesRepository {
   async create(name: string): Promise<CategoryP> {
@@ -13,17 +14,39 @@ export class CategoriesRepository implements ICategoriesRepository {
     return newCategory;
   }
 
-  async countAll(): Promise<number> {
-    const categoriesCount = await prisma.category.count();
+  async countAll(search?: string): Promise<number> {
+    let filter: any = {};
+
+    if (search) {
+      Object.assign(filter, {
+        name: { contains: search, mode: 'insensitive' }
+      });
+    }
+
+    const categoriesCount = await prisma.category.count({
+      where: { ...filter }
+    });
 
     return categoriesCount;
   }
 
-  async listPaginated(page: number): Promise<CategoryP[]> {
+  async listPaginated({
+    page,
+    search,
+  }: IListPaginatedCategoriesDTO): Promise<CategoryP[]> {
     const skip = PAGE_LIMIT * (page - 1);
     const take = PAGE_LIMIT * page;
 
+    let filter: any = {};
+
+    if (search) {
+      Object.assign(filter, {
+        name: { contains: search, mode: 'insensitive' }
+      });
+    }
+
     const categories = await prisma.category.findMany({
+      where: { ...filter },
       orderBy: { name: 'asc' },
       skip,
       take,

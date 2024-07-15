@@ -60,4 +60,42 @@ describe('List Paginated Categories Service', () => {
     expect(categories[0].name).toBe('Category F');
     expect(categories[5].name).toBe('Category G');
   });
+
+  it('Should search categories with insensitive case', async () => {
+    for (let i = 0; i <= 20; i++) {
+      const categoryLetter = categoriesLettersForAlphabeticalSorting[i % 7];
+
+      await categoriesRepository.create(`Category ${categoryLetter}`);
+    }
+
+    const { total, has_more, categories } = await sut.execute({
+      search: 'categ',
+      page: 1
+    });
+
+    expect(total).toBe(21);
+    expect(has_more).toBe(true);
+    expect(categories).toHaveLength(15);
+    expect(categories[0].name).toBe('Category A');
+    expect(categories[14].name).toBe('Category E');
+  });
+
+  it('Should search categories with insensitive case', async () => {
+    for (let i = 0; i <= 20; i++) {
+      const categoryLetter = categoriesLettersForAlphabeticalSorting[i % 7];
+
+      await categoriesRepository.create(`Category ${categoryLetter}`);
+    }
+
+    const { total, has_more, categories } = await sut.execute({
+      search: 'category a',
+      page: 1
+    });
+
+    expect(total).toBe(3);
+    expect(has_more).toBe(false);
+    expect(categories).toHaveLength(3);
+    expect(categories[0].name).toBe('Category A');
+    expect(categories[2].name).toBe('Category A');
+  });
 });

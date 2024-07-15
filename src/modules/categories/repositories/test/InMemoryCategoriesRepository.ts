@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto';
 
 import { ICategoriesRepository } from "../interface/ICategoriesRepository";
 import { PAGE_LIMIT } from '../../../expenses/repositories/interfaces/IExpensesRepository';
+import { IListPaginatedCategoriesDTO } from '../dtos/IListPaginatedCategoriesDTO';
 
 export class InMemoryCategoriesRepository implements ICategoriesRepository {
   private inMemoryDatabase: CategoryP[] = [];
@@ -18,21 +19,38 @@ export class InMemoryCategoriesRepository implements ICategoriesRepository {
     return newCategory;
   }
 
-  async countAll(): Promise<number> {
+  async countAll(search?: string): Promise<number> {
+    if (search) {
+      const searchedCategories = this.inMemoryDatabase.filter(category => {
+        return category.name.toLowerCase().includes(search.toLowerCase());
+      });
+
+      return searchedCategories.length;
+    }
+
     const categoriesCount = this.inMemoryDatabase.length;
 
     return categoriesCount;
   }
 
-  async listPaginated(page: number): Promise<CategoryP[]> {
+  async listPaginated({
+    page,
+    search,
+  }: IListPaginatedCategoriesDTO): Promise<CategoryP[]> {
     const skip = PAGE_LIMIT * (page - 1);
     const take = PAGE_LIMIT * page;
 
-    const sortedCategories = this.inMemoryDatabase.sort((a, b) => {
+    let categories = this.inMemoryDatabase.sort((a, b) => {
       return a.name > b.name ? 1 : -1;
     });
 
-    const paginatedCategories = sortedCategories.slice(skip, take);
+    if (search) {
+      categories = categories.filter(category => {
+        return category.name.toLowerCase().includes(search.toLowerCase());
+      });
+    }
+
+    const paginatedCategories = categories.slice(skip, take);
 
     return paginatedCategories;
   }
