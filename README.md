@@ -44,4 +44,4 @@
 
 [x] - Deve ser possível deletar uma despesa;
 
-[ ] - Deve ser possível deletar uma categoria;
+[x] - Deve ser possível deletar uma categoria;

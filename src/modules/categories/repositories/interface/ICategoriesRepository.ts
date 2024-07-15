@@ -6,4 +6,5 @@ export interface ICategoriesRepository {
   countAll(search?: string): Promise<number>;
   listPaginated(data: IListPaginatedCategoriesDTO): Promise<Category[]>;
   findById(id: string): Promise<Category | null>;
+  delete(id: string): Promise<boolean>;
 }

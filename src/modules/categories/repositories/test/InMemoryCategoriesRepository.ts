@@ -62,4 +62,15 @@ export class InMemoryCategoriesRepository implements ICategoriesRepository {
 
     return category ?? null;
   }
+
+  async delete(id: string): Promise<boolean> {
+    const categoryIndex = this.inMemoryDatabase.findIndex(category => {
+      return category.id === id;
+    });
+
+    if (categoryIndex === -1) return true;
+
+    this.inMemoryDatabase.splice(categoryIndex, 1);
+    return true;
+  }
 }
