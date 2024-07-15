@@ -20,7 +20,7 @@ export function validateDateUtil(dateString: string): Date {
     [year, month, day] = dateString.split('-').map(dateInfo => parseInt(dateInfo));
   }
 
-  const validYear = year && year >= 2023 && year <= currentYear;
+  const validYear = year && year >= 0 && year <= currentYear;
   const validMonth = month && month >= 1 && month <= 12;
   const validDay = day && day >= 1 && day <= 31;
 

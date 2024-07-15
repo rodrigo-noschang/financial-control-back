@@ -5,6 +5,8 @@ import { ICreateExpenseDTO } from "../dtos/ICreateExpenseDTO";
 import { IExpensesRepository, PAGE_LIMIT } from "../interfaces/IExpensesRepository";
 import { ICountAllFromSpecificMonthDTO } from '../dtos/ICountAllFromSpecificMonthDTO';
 import { IListPaginatedFromSpecificMonthDTO } from '../dtos/IListPaginatedFromSpecificMonthDTO';
+import { IUpdateExpenseDTO } from '../dtos/IUpdateExpenseDTO';
+import { AppError } from '../../../../errors';
 
 export class InMemoryExpensesRepository implements IExpensesRepository {
   private inMemoryDatabase: ExpenseP[] = [];
@@ -154,5 +156,41 @@ export class InMemoryExpensesRepository implements IExpensesRepository {
     const paginatedExpenses = sortedExpenses.slice(skip, take)
 
     return paginatedExpenses;
+  }
+
+  async findById(id: string): Promise<ExpenseP | null> {
+    const expense = this.inMemoryDatabase.find(expense => {
+      return expense.id === id;
+    });
+
+    return expense ?? null;
+  }
+
+  async update({
+    id,
+    amount,
+    category_id,
+    date,
+    essential,
+    observation,
+    recurrent,
+  }: IUpdateExpenseDTO): Promise<ExpenseP> {
+    const expenseToUpdate = this.inMemoryDatabase.find(expense => {
+      return expense.id === id;
+    });
+
+    if (!expenseToUpdate) {
+      throw new AppError('Despesa não encontrada');
+    }
+
+    if (amount) Object.assign(expenseToUpdate, { amount });
+    if (category_id) Object.assign(expenseToUpdate, { category_id });
+    if (category_id) Object.assign(expenseToUpdate, { category_id });
+    if (date) Object.assign(expenseToUpdate, { date });
+    if (essential) Object.assign(expenseToUpdate, { essential });
+    if (observation) Object.assign(expenseToUpdate, { observation });
+    if (recurrent) Object.assign(expenseToUpdate, { recurrent });
+
+    return expenseToUpdate;
   }
 }

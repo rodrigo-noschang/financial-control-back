@@ -54,4 +54,12 @@ export class InMemoryCategoriesRepository implements ICategoriesRepository {
 
     return paginatedCategories;
   }
+
+  async findById(id: string): Promise<CategoryP | null> {
+    const category = this.inMemoryDatabase.find(category => {
+      return category.id === id;
+    });
+
+    return category ?? null;
+  }
 }

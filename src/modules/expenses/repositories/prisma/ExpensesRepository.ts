@@ -5,6 +5,7 @@ import { ICreateExpenseDTO } from "../dtos/ICreateExpenseDTO";
 import { IExpensesRepository, PAGE_LIMIT } from "../interfaces/IExpensesRepository";
 import { ICountAllFromSpecificMonthDTO } from "../dtos/ICountAllFromSpecificMonthDTO";
 import { IListPaginatedFromSpecificMonthDTO } from "../dtos/IListPaginatedFromSpecificMonthDTO";
+import { IUpdateExpenseDTO } from "../dtos/IUpdateExpenseDTO";
 
 export class ExpensesPrismaRepository implements IExpensesRepository {
   async create(data: ICreateExpenseDTO): Promise<ExpenseP> {
@@ -139,5 +140,37 @@ export class ExpensesPrismaRepository implements IExpensesRepository {
     });
 
     return expenses;
+  }
+
+  async findById(id: string): Promise<ExpenseP | null> {
+    const expense = await prisma.expense.findUnique({
+      where: { id, },
+    });
+
+    return expense;
+  }
+
+  async update({
+    id,
+    amount,
+    category_id,
+    date,
+    essential,
+    observation,
+    recurrent,
+  }: IUpdateExpenseDTO): Promise<ExpenseP> {
+    const updatedExpense = await prisma.expense.update({
+      where: { id },
+      data: {
+        amount,
+        category_id,
+        date,
+        essential,
+        observation,
+        recurrent,
+      },
+    });
+
+    return updatedExpense;
   }
 }

@@ -34,11 +34,11 @@
 
 [x] - Deve ser possível listar as categorias em ordem alfabética;
 
-[ ] - Deve ser possível pesquisar por uma categoria;
+[x] - Deve ser possível pesquisar por uma categoria;
 
 ## Atualização
 
-[ ] - Deve ser possível atualizar os dados de uma despesa, alterando absolutamente tudo;
+[x] - Deve ser possível atualizar os dados de uma despesa, alterando absolutamente tudo;
 
 ## Deletar
 
