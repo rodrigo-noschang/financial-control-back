@@ -17,4 +17,5 @@ export interface IExpensesRepository {
   listPaginatedInPeriod(data: IListPaginatedFromSpecificMonthDTO): Promise<Expense[]>;
   findById(id: string): Promise<Expense | null>;
   update(data: IUpdateExpenseDTO): Promise<Expense>;
+  delete(id: string): Promise<boolean>;
 }

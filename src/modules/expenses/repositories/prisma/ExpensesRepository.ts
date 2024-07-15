@@ -173,4 +173,12 @@ export class ExpensesPrismaRepository implements IExpensesRepository {
 
     return updatedExpense;
   }
+
+  async delete(id: string): Promise<boolean> {
+    await prisma.expense.delete({
+      where: { id },
+    });
+
+    return true;
+  }
 }

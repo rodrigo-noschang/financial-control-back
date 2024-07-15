@@ -193,4 +193,16 @@ export class InMemoryExpensesRepository implements IExpensesRepository {
 
     return expenseToUpdate;
   }
+
+  async delete(id: string): Promise<boolean> {
+    const expenseIndex = this.inMemoryDatabase.findIndex(expense => {
+      return expense.id === id;
+    });
+
+    if (expenseIndex === -1) return true;
+
+    this.inMemoryDatabase.splice(expenseIndex, 1);
+
+    return true;
+  }
 }

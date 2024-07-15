@@ -42,6 +42,6 @@
 
 ## Deletar
 
-[ ] - Deve ser possível deletar uma despesa;
+[x] - Deve ser possível deletar uma despesa;
 
 [ ] - Deve ser possível deletar uma categoria;

@@ -6,7 +6,7 @@ import { InMemoryCategoriesRepository } from "../../categories/repositories/test
 import { CreateExpenseService } from "./CreateExpenseService";
 import { AppError } from "../../../errors";
 
-interface ICreateExpenseInService {
+export interface ICreateExpenseInService {
   category_id: string;
   amount: number;
   observation?: string;
