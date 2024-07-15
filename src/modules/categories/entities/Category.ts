@@ -9,6 +9,12 @@ export class Category {
   @Field(() => String)
   name: string;
 
+  @Field(() => Date)
+  created_at: Date;
+
+  @Field(() => Date)
+  updated_at: Date;
+
   @Field(() => [Expense], { nullable: true })
   expenses: Expense[];
 }

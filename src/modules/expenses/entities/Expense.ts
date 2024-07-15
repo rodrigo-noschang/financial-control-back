@@ -6,7 +6,7 @@ export class Expense {
   @Field(() => String)
   id: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   category_id: string;
 
   @Field(() => String, { nullable: true })
