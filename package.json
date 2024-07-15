@@ -2,11 +2,11 @@
   "name": "back-financial-control",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
+  "type": "module",
   "scripts": {
-    "dev": "tsnd --respawn --transpile-only server.ts",
-    "start": "tsnd --transpile-only server.ts",
-    "test": "vitest"
+    "migration:run": "npx tsx ./node_modules/typeorm/cli.js migration:run -d ormconfig.ts",
+    "migration:revert": "npx tsx ./node_modules/typeorm/cli.js migration:revert -d ormconfig.ts"
   },
   "keywords": [],
   "author": "",
@@ -22,9 +22,13 @@
     "@apollo/server": "^4.10.0",
     "@prisma/client": "^5.9.0",
     "date-fns": "^3.3.1",
+    "dotenv": "^16.4.5",
     "graphql": "^16.8.1",
     "graphql-scalars": "^1.22.4",
+    "pg": "^8.12.0",
     "reflect-metadata": "^0.2.1",
-    "type-graphql": "^2.0.0-beta.6"
+    "tsx": "^4.16.2",
+    "type-graphql": "^2.0.0-beta.6",
+    "typeorm": "^0.3.20"
   }
 }
