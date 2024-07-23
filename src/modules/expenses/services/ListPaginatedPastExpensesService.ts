@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 
 import { IExpensesRepository, PAGE_LIMIT } from '../repositories/interfaces/IExpensesRepository';
-import { ExpensesWithFormattedDate } from '../../scalars/responses/ExpensesWithFormattedDate';
+import { ExpensesWithFormattedDate } from '../scalars/responses/ExpensesWithFormattedDate';
 
 interface IRequest {
   page?: number;

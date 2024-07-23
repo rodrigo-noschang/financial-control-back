@@ -1,5 +1,5 @@
 import { format, startOfMonth, endOfMonth } from "date-fns";
-import { ExpensesWithFormattedDate } from "../../scalars/responses/ExpensesWithFormattedDate";
+import { ExpensesWithFormattedDate } from "../scalars/responses/ExpensesWithFormattedDate";
 import { IExpensesRepository, PAGE_LIMIT } from "../repositories/interfaces/IExpensesRepository";
 
 interface IRequest {

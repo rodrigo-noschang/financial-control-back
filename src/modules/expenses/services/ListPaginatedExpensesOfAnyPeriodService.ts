@@ -1,6 +1,7 @@
 import { format, startOfDay, endOfDay } from "date-fns";
-import { ExpensesWithFormattedDate } from "../../scalars/responses/ExpensesWithFormattedDate";
+import { ExpensesWithFormattedDate } from "../scalars/responses/ExpensesWithFormattedDate";
 import { IExpensesRepository, PAGE_LIMIT } from "../repositories/interfaces/IExpensesRepository";
+import { validateDateUtil } from "../../../utils/validateDateUtil";
 
 interface IRequest {
   start_date: string;
@@ -32,8 +33,8 @@ export class ListPaginatedExpensesOfAnyPeriodService {
     non_recurrent_only = false,
     recurrent_only = false,
   }: IRequest): Promise<IResponse> {
-    const startDate = startOfDay(new Date(start_date));
-    const endDate = endOfDay(new Date(end_date));
+    const startDate = validateDateUtil(start_date);
+    const endDate = validateDateUtil(end_date);
 
     const periodExpensesCount = await this.expensesRepository.countInPeriod({
       from: startDate,

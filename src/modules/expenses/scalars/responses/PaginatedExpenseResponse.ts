@@ -1,5 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
-import { Expense } from "../../expenses/entities/Expense";
+import { Expense } from "../../entities/Expense";
 import { ExpensesWithFormattedDate } from './ExpensesWithFormattedDate';
 
 @ObjectType()

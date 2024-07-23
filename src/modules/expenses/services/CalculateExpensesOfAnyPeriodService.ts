@@ -1,4 +1,4 @@
-import { startOfMonth, endOfMonth, setMonth, getMonth, getYear, startOfDay, endOfDay } from 'date-fns';
+import { startOfDay, endOfDay } from 'date-fns';
 
 import { IExpensesRepository } from '../repositories/interfaces/IExpensesRepository';
 

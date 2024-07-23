@@ -3,7 +3,7 @@ import { Category as CategoryP } from '@prisma/client';
 import { prisma } from "../../../../db/prisma";
 import { ICategoriesRepository } from "../interface/ICategoriesRepository";
 import { PAGE_LIMIT } from '../../../expenses/repositories/interfaces/IExpensesRepository';
-import { IListPaginatedCategoriesDTO } from '../dtos/IListPaginatedCategoriesDTO';
+import { IListPaginatedCategoriesDTO } from '../dtos/IGetCategoriesDTO';
 
 export class CategoriesRepository implements ICategoriesRepository {
   async create(name: string): Promise<CategoryP> {

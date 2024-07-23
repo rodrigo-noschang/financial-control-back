@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "migration:run": "npx tsx ./node_modules/typeorm/cli.js migration:run -d ormconfig.ts",
-    "migration:revert": "npx tsx ./node_modules/typeorm/cli.js migration:revert -d ormconfig.ts"
+    "migration:revert": "npx tsx ./node_modules/typeorm/cli.js migration:revert -d ormconfig.ts",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",

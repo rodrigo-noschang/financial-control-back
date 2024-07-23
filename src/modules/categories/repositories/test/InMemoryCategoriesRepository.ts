@@ -3,7 +3,7 @@ import { randomUUID } from 'node:crypto';
 
 import { ICategoriesRepository } from "../interface/ICategoriesRepository";
 import { PAGE_LIMIT } from '../../../expenses/repositories/interfaces/IExpensesRepository';
-import { IListPaginatedCategoriesDTO } from '../dtos/IListPaginatedCategoriesDTO';
+import { IListPaginatedCategoriesDTO } from '../dtos/IGetCategoriesDTO';
 
 export class InMemoryCategoriesRepository implements ICategoriesRepository {
   private inMemoryDatabase: CategoryP[] = [];
