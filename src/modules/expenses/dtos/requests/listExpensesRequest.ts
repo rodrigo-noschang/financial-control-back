@@ -1,7 +1,29 @@
-export interface IListExpensesRequest {
-  page: number;
-  page_size: number;
-  search?: string;
-  start_date?: Date;
-  end_date?: Date;
+import { Type } from "class-transformer";
+import { IsDate, IsInt, IsOptional, IsString, Min } from "class-validator";
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "src/defaults/pagination";
+
+export class ListExpensesRequestDTO {
+  @IsOptional()
+  @IsInt()
+  @Type(() => Number)
+  @Min(1)
+  page: number = DEFAULT_PAGE;
+
+  @IsOptional()
+  @IsInt()
+  @Type(() => Number)
+  @Min(1)
+  page_size: number = DEFAULT_PAGE_SIZE;
+
+  @IsOptional()
+  @IsString()
+  search: string;
+
+  @IsOptional()
+  @IsDate()
+  start_date: Date;
+
+  @IsOptional()
+  @IsDate()
+  end_date: Date;
 }
