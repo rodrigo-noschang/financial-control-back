@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id   Int    @id() @default(autoincrement())
+  name String @db.VarChar(100)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+
+  Expenses Expense[]
+
+  @@map("categories")
+}
+
+model Expense {
+  id               Int      @id() @default(autoincrement())
+  category_id      Int?
+  observation      String?  @db.VarChar(250)
+  amount           Decimal  @db.Decimal(10, 2)
+  date             DateTime
+  essential        Boolean  @default(true) @db.Boolean
+  recurrent        Boolean  @default(true) @db.Boolean
+  has_installments Boolean  @default(false) @db.Boolean
+
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+
+  category Category? @relation(fields: [category_id], references: [id], onDelete: SetNull)
+
+  @@map("expenses")
+}
