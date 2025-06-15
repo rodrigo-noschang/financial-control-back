@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 
 import { Expense } from "generated/prisma";
 import { PrismaService } from "src/modules/database/prisma/prisma.service";
-import { ICreateExpenseRequest } from "./dtos/requests/createExpenseRequest";
+import { CreateExpenseRequestDTO } from "./dtos/requests/createExpenseRequest";
 import { ListExpensesRequestDTO } from "./dtos/requests/listExpensesRequest";
 import {
   DEFAULT_PAGE,
@@ -14,7 +14,7 @@ import {
 export class ExpensesRepository {
   constructor(private prisma: PrismaService) {}
 
-  async createExpense(data: ICreateExpenseRequest): Promise<Expense> {
+  async createExpense(data: CreateExpenseRequestDTO): Promise<Expense> {
     const {
       amount,
       date,

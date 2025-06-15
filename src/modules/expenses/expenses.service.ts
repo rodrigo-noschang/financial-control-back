@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ExpensesRepository } from "./expenses.repository";
-import { ICreateExpenseRequest } from "./dtos/requests/createExpenseRequest";
+import { CreateExpenseRequestDTO } from "./dtos/requests/createExpenseRequest";
 import { Expense } from "generated/prisma";
 import { ListExpensesRequestDTO } from "./dtos/requests/listExpensesRequest";
 import { extractPaginationInfo } from "src/utils/extractPaginationInfo.";
@@ -11,7 +11,7 @@ import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "src/defaults/pagination";
 export class ExpensesService {
   constructor(private expensesRepository: ExpensesRepository) {}
 
-  async createExpense(data: ICreateExpenseRequest): Promise<Expense> {
+  async createExpense(data: CreateExpenseRequestDTO): Promise<Expense> {
     const expense = await this.expensesRepository.createExpense(data);
     return expense;
   }
