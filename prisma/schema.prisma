@@ -29,9 +29,9 @@ model Category {
 model Expense {
   id               Int      @id() @default(autoincrement())
   category_id      Int?
-  observation      String?  @db.VarChar(250)
+  observation      String?  @db.VarChar()
   amount           Decimal  @db.Decimal(10, 2)
-  date             DateTime
+  date             DateTime @db.Date
   essential        Boolean  @default(true) @db.Boolean
   recurrent        Boolean  @default(true) @db.Boolean
   has_installments Boolean  @default(false) @db.Boolean
