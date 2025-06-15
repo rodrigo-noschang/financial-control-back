@@ -7,6 +7,8 @@ interface IRequest {
 interface IResponse {
   has_next_page: boolean;
   has_previous_page: boolean;
+  page: number;
+  page_size: number;
 }
 
 export function extractPaginationInfo({
@@ -20,5 +22,7 @@ export function extractPaginationInfo({
   return {
     has_next_page: hasNextPage,
     has_previous_page: hasPreviousPage,
+    page: Number(page),
+    page_size: Number(page_size),
   };
 }

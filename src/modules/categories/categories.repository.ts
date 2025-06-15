@@ -2,7 +2,11 @@ import { Injectable } from "@nestjs/common";
 
 import { Category } from "generated/prisma";
 import { PrismaService } from "src/modules/database/prisma/prisma.service";
-import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "src/defaults/pagination";
+import {
+  DEFAULT_PAGE,
+  DEFAULT_PAGE_SIZE,
+  DEFAULT_SEARCH_VALUE,
+} from "src/defaults/pagination";
 import { ICreateCategoryRequest } from "./dtos/requests/createCategoryRequest";
 
 @Injectable()
@@ -12,7 +16,7 @@ export class CategoriesRepository {
   async listCategories(
     page: number = DEFAULT_PAGE,
     page_size: number = DEFAULT_PAGE_SIZE,
-    search?: string,
+    search: string = DEFAULT_SEARCH_VALUE,
   ): Promise<Category[]> {
     const take = page * page_size;
     const skip = (page - 1) * page_size;
@@ -21,7 +25,7 @@ export class CategoriesRepository {
       take,
       skip,
       where: {
-        name: { contains: search ?? "", mode: "insensitive" },
+        name: { contains: search, mode: "insensitive" },
       },
       orderBy: { name: "asc" },
     });
