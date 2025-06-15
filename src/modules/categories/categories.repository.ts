@@ -7,7 +7,7 @@ import {
   DEFAULT_PAGE_SIZE,
   DEFAULT_SEARCH_VALUE,
 } from "src/defaults/pagination";
-import { ICreateCategoryRequest } from "./dtos/requests/createCategoryRequest";
+import { ICreateCategoryBodyDTO } from "./dtos/requests/createCategoryBody";
 
 @Injectable()
 export class CategoriesRepository {
@@ -33,7 +33,7 @@ export class CategoriesRepository {
     return categories;
   }
 
-  async createCategory(data: ICreateCategoryRequest): Promise<Category> {
+  async createCategory(data: ICreateCategoryBodyDTO): Promise<Category> {
     const { name } = data;
 
     const category = await this.prisma.category.create({

@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 
 import { ExpensesService } from "./expenses.service";
-import { CreateExpenseRequestDTO } from "./dtos/requests/createExpenseRequest";
+import { CreateExpenseBodyDTO } from "./dtos/requests/createExpenseBody";
 import { ICreateExpenseResponse } from "./dtos/response/CreateExpenseResponse";
 import { IListExpensesResponse } from "./dtos/response/listExpensesResponse";
-import { ListExpensesRequestDTO } from "./dtos/requests/listExpensesRequest";
+import { ListExpensesQueryDTO } from "./dtos/requests/listExpensesQuery";
 
 @Controller("/expense")
 export class ExpensesController {
@@ -12,7 +12,7 @@ export class ExpensesController {
 
   @Post()
   async createExpense(
-    @Body() data: CreateExpenseRequestDTO,
+    @Body() data: CreateExpenseBodyDTO,
   ): Promise<ICreateExpenseResponse> {
     const expense = await this.expensesService.createExpense(data);
     return { expense };
@@ -20,7 +20,7 @@ export class ExpensesController {
 
   @Get()
   async listExpenses(
-    @Query() query: ListExpensesRequestDTO,
+    @Query() query: ListExpensesQueryDTO,
   ): Promise<IListExpensesResponse> {
     const { expenses, pagination } =
       await this.expensesService.listExpenses(query);

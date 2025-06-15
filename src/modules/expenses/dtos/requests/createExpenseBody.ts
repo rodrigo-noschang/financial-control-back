@@ -9,7 +9,7 @@ import {
   Min,
 } from "class-validator";
 
-export class CreateExpenseRequestDTO {
+export class CreateExpenseBodyDTO {
   @IsOptional()
   @IsInt()
   category_id: number;

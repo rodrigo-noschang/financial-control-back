@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { Category } from "generated/prisma";
 import { CategoriesRepository } from "./categories.repository";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "src/defaults/pagination";
-import { ICreateCategoryRequest } from "./dtos/requests/createCategoryRequest";
+import { ICreateCategoryBodyDTO } from "./dtos/requests/createCategoryBody";
 
 @Injectable()
 export class CategoriesService {
@@ -21,7 +21,7 @@ export class CategoriesService {
     return categories;
   }
 
-  async createCategory(data: ICreateCategoryRequest): Promise<Category> {
+  async createCategory(data: ICreateCategoryBodyDTO): Promise<Category> {
     const category = await this.categoriesRepository.createCategory(data);
     return category;
   }

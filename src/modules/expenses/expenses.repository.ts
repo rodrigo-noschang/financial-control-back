@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 
 import { Expense } from "generated/prisma";
 import { PrismaService } from "src/modules/database/prisma/prisma.service";
-import { CreateExpenseRequestDTO } from "./dtos/requests/createExpenseRequest";
-import { ListExpensesRequestDTO } from "./dtos/requests/listExpensesRequest";
+import { CreateExpenseBodyDTO } from "./dtos/requests/createExpenseBody";
+import { ListExpensesQueryDTO } from "./dtos/requests/listExpensesQuery";
 import {
   DEFAULT_PAGE,
   DEFAULT_PAGE_SIZE,
@@ -14,7 +14,7 @@ import {
 export class ExpensesRepository {
   constructor(private prisma: PrismaService) {}
 
-  async createExpense(data: CreateExpenseRequestDTO): Promise<Expense> {
+  async createExpense(data: CreateExpenseBodyDTO): Promise<Expense> {
     const {
       amount,
       date,
@@ -40,7 +40,7 @@ export class ExpensesRepository {
     return expense;
   }
 
-  async countExpenses(data: ListExpensesRequestDTO): Promise<number> {
+  async countExpenses(data: ListExpensesQueryDTO): Promise<number> {
     const { search = DEFAULT_SEARCH_VALUE, start_date, end_date } = data;
 
     const dateFilter = {};
@@ -63,7 +63,7 @@ export class ExpensesRepository {
     return expensesCount;
   }
 
-  async listExpenses(data: ListExpensesRequestDTO): Promise<Expense[]> {
+  async listExpenses(data: ListExpensesQueryDTO): Promise<Expense[]> {
     const {
       search = DEFAULT_SEARCH_VALUE,
       page = DEFAULT_PAGE,

@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { ExpensesRepository } from "./expenses.repository";
-import { CreateExpenseRequestDTO } from "./dtos/requests/createExpenseRequest";
+import { CreateExpenseBodyDTO } from "./dtos/requests/createExpenseBody";
 import { Expense } from "generated/prisma";
-import { ListExpensesRequestDTO } from "./dtos/requests/listExpensesRequest";
+import { ListExpensesQueryDTO } from "./dtos/requests/listExpensesQuery";
 import { extractPaginationInfo } from "src/utils/extractPaginationInfo.";
 import { IListExpensesResponse } from "./dtos/response/listExpensesResponse";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "src/defaults/pagination";
@@ -11,13 +11,13 @@ import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "src/defaults/pagination";
 export class ExpensesService {
   constructor(private expensesRepository: ExpensesRepository) {}
 
-  async createExpense(data: CreateExpenseRequestDTO): Promise<Expense> {
+  async createExpense(data: CreateExpenseBodyDTO): Promise<Expense> {
     const expense = await this.expensesRepository.createExpense(data);
     return expense;
   }
 
   async listExpenses(
-    data: ListExpensesRequestDTO,
+    data: ListExpensesQueryDTO,
   ): Promise<IListExpensesResponse> {
     const expensesCount = await this.expensesRepository.countExpenses(data);
     const { page = DEFAULT_PAGE, page_size = DEFAULT_PAGE_SIZE } = data;

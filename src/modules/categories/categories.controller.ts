@@ -3,9 +3,9 @@ import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 import { CategoriesService } from "./categories.service";
 
 import { IListCategoriesResponse } from "./dtos/responses/listCategoriesResponse";
-import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "src/defaults/pagination";
-import { ICreateCategoryRequest } from "./dtos/requests/createCategoryRequest";
+import { ICreateCategoryBodyDTO } from "./dtos/requests/createCategoryBody";
 import { ICreateCategoryResponse } from "./dtos/responses/createCategoryResponse";
+import { ListCategoriesQueryDTO } from "./dtos/requests/listCategoriesQuery";
 
 @Controller("/category")
 export class CategoriesController {
@@ -13,16 +13,16 @@ export class CategoriesController {
 
   @Get()
   async listCategories(
-    @Query("page") page: number | undefined = DEFAULT_PAGE,
-    @Query("page_size") page_size: number | undefined = DEFAULT_PAGE_SIZE,
-    @Query("search") search: string | undefined,
+    @Query() query: ListCategoriesQueryDTO,
   ): Promise<IListCategoriesResponse> {
-    const searchQuery = search ? search.trim() : search;
+    const { page, page_size, search } = query;
+
+    const sanitizedSearch = search ? search.trim() : search;
 
     const categories = await this.categoriesService.listCategories(
       page,
       page_size,
-      searchQuery,
+      sanitizedSearch,
     );
 
     return { categories };
@@ -30,7 +30,7 @@ export class CategoriesController {
 
   @Post()
   async createCategory(
-    @Body() data: ICreateCategoryRequest,
+    @Body() data: ICreateCategoryBodyDTO,
   ): Promise<ICreateCategoryResponse> {
     const category = await this.categoriesService.createCategory(data);
     return { category };

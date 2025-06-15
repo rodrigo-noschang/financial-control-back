@@ -1,8 +1,8 @@
 import { Type } from "class-transformer";
-import { IsDate, IsInt, IsOptional, IsString, Min } from "class-validator";
+import { IsInt, IsOptional, IsString, Min } from "class-validator";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "src/defaults/pagination";
 
-export class ListExpensesRequestDTO {
+export class ListCategoriesQueryDTO {
   @IsOptional()
   @IsInt()
   @Type(() => Number)
@@ -17,15 +17,5 @@ export class ListExpensesRequestDTO {
 
   @IsOptional()
   @IsString()
-  search: string;
-
-  @IsOptional()
-  @IsDate()
-  @Type(() => Date)
-  start_date: Date;
-
-  @IsOptional()
-  @IsDate()
-  @Type(() => Date)
-  end_date: Date;
+  search: string = "";
 }
