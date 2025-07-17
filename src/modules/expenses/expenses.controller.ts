@@ -5,6 +5,8 @@ import { CreateExpenseBodyDTO } from "./dtos/requests/createExpenseBody";
 import { ICreateExpenseResponse } from "./dtos/response/CreateExpenseResponse";
 import { IListExpensesResponse } from "./dtos/response/listExpensesResponse";
 import { ListExpensesQueryDTO } from "./dtos/requests/listExpensesQuery";
+import { GetExpensesSummaryQueryDTO } from "./dtos/requests/getExpensesSummaryQuery";
+import { IGetExpensesSummaryResponse } from "./dtos/response/GetExpensesSummaryResponse";
 
 @Controller("/expense")
 export class ExpensesController {
@@ -28,6 +30,20 @@ export class ExpensesController {
     return {
       expenses,
       pagination,
+    };
+  }
+
+  @Get("/summary")
+  async getExpensesSummary(
+    @Query() query: GetExpensesSummaryQueryDTO,
+  ): Promise<IGetExpensesSummaryResponse> {
+    const { essentials, rest, total } =
+      await this.expensesService.getExpensesSummary(query);
+
+    return {
+      essentials,
+      rest,
+      total,
     };
   }
 }

@@ -9,6 +9,8 @@ import {
   DEFAULT_PAGE_SIZE,
   DEFAULT_SEARCH_VALUE,
 } from "src/defaults/pagination";
+import { GetExpensesSummaryQueryDTO } from "./dtos/requests/getExpensesSummaryQuery";
+import { IGetExpensesSummaryResponse } from "./dtos/response/GetExpensesSummaryResponse";
 
 @Injectable()
 export class ExpensesRepository {
@@ -99,5 +101,36 @@ export class ExpensesRepository {
     });
 
     return expenses;
+  }
+
+  async getExpensesSummary(
+    data: GetExpensesSummaryQueryDTO,
+  ): Promise<IGetExpensesSummaryResponse> {
+    const essentialsTotal = await this.prisma.expense.aggregate({
+      _sum: { amount: true },
+      where: {
+        date: {
+          gte: data.start_date,
+          lte: data.end_date,
+        },
+        essential: true,
+      },
+    });
+
+    const restTotal = await this.prisma.expense.aggregate({
+      _sum: { amount: true },
+      where: {
+        date: {
+          gte: data.start_date,
+          lte: data.end_date,
+        },
+        essential: false,
+      },
+    });
+
+    const essentials = Number(essentialsTotal._sum.amount ?? 0);
+    const rest = Number(restTotal._sum.amount ?? 0);
+
+    return { essentials, rest };
   }
 }
