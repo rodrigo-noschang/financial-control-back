@@ -87,9 +87,18 @@ export class ExpensesRepository {
       Object.assign(dateFilter, { lte: end_date });
     }
 
+    const observationFilter = {};
+
+    if (search) {
+      Object.assign(observationFilter, {
+        contains: search,
+        mode: "insensitive",
+      });
+    }
+
     const expenses = this.prisma.expense.findMany({
       where: {
-        observation: { contains: search, mode: "insensitive" },
+        observation: observationFilter,
         date: dateFilter,
       },
       orderBy: { date: "desc" },
