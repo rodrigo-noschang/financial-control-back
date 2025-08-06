@@ -33,5 +33,6 @@ export class CreateExpenseBodyDTO {
   recurrent: boolean;
 
   @IsBoolean()
-  has_installments: boolean;
+  @IsOptional()
+  has_installments: boolean = false;
 }
