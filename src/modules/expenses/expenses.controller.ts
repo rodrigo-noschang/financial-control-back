@@ -1,6 +1,9 @@
 import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 
-import { ExpensesService } from "./expenses.service";
+import { ListExpensesFacade } from "./facades/ListExpensesFacade";
+import { CreateExpenseFacade } from "./facades/CreateExpenseFacade";
+import { GetExpensesSummaryFacade } from "./facades/GetExpensesSummaryFacade";
+
 import { CreateExpenseBodyDTO } from "./dtos/requests/createExpenseBody";
 import { ICreateExpenseResponse } from "./dtos/response/CreateExpenseResponse";
 import { IListExpensesResponse } from "./dtos/response/listExpensesResponse";
@@ -10,13 +13,17 @@ import { IGetExpensesSummaryResponse } from "./dtos/response/GetExpensesSummaryR
 
 @Controller("/expense")
 export class ExpensesController {
-  constructor(private readonly expensesService: ExpensesService) {}
+  constructor(
+    private readonly listExpensesFacade: ListExpensesFacade,
+    private readonly createExpenseFacade: CreateExpenseFacade,
+    private readonly getExpensesSummaryFacade: GetExpensesSummaryFacade,
+  ) {}
 
   @Post()
   async createExpense(
     @Body() data: CreateExpenseBodyDTO,
   ): Promise<ICreateExpenseResponse> {
-    const expense = await this.expensesService.createExpense(data);
+    const expense = await this.createExpenseFacade.execute(data);
     return { expense };
   }
 
@@ -25,7 +32,7 @@ export class ExpensesController {
     @Query() query: ListExpensesQueryDTO,
   ): Promise<IListExpensesResponse> {
     const { expenses, pagination } =
-      await this.expensesService.listExpenses(query);
+      await this.listExpensesFacade.execute(query);
 
     return {
       expenses,
@@ -38,7 +45,7 @@ export class ExpensesController {
     @Query() query: GetExpensesSummaryQueryDTO,
   ): Promise<IGetExpensesSummaryResponse> {
     const { essentials, rest, total } =
-      await this.expensesService.getExpensesSummary(query);
+      await this.getExpensesSummaryFacade.execute(query);
 
     return {
       essentials,

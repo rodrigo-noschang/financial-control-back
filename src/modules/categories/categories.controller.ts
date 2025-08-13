@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 
-import { CategoriesService } from "./categories.service";
+import { CreateCategoryFacade } from "./facades/CreateCategoryFacade";
+import { ListCategoriesFacade } from "./facades/ListCategoriesFacade";
 
 import { IListCategoriesResponse } from "./dtos/responses/listCategoriesResponse";
 import { ICreateCategoryBodyDTO } from "./dtos/requests/createCategoryBody";
@@ -9,7 +10,10 @@ import { ListCategoriesQueryDTO } from "./dtos/requests/listCategoriesQuery";
 
 @Controller("/category")
 export class CategoriesController {
-  constructor(private readonly categoriesService: CategoriesService) {}
+  constructor(
+    private readonly createCategoryFacade: CreateCategoryFacade,
+    private readonly listCategoriesFacade: ListCategoriesFacade,
+  ) {}
 
   @Get()
   async listCategories(
@@ -17,12 +21,10 @@ export class CategoriesController {
   ): Promise<IListCategoriesResponse> {
     const { page, page_size, search } = query;
 
-    const sanitizedSearch = search ? search.trim() : search;
-
-    const categories = await this.categoriesService.listCategories(
+    const categories = await this.listCategoriesFacade.execute(
       page,
       page_size,
-      sanitizedSearch,
+      search,
     );
 
     return { categories };
@@ -32,7 +34,7 @@ export class CategoriesController {
   async createCategory(
     @Body() data: ICreateCategoryBodyDTO,
   ): Promise<ICreateCategoryResponse> {
-    const category = await this.categoriesService.createCategory(data);
+    const category = await this.createCategoryFacade.execute(data);
     return { category };
   }
 }
