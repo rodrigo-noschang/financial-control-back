@@ -7,6 +7,7 @@ import { ListCategoriesFacade } from "./facades/ListCategoriesFacade";
 
 import { CreateCategoryService } from "./services/CreateCategoryService";
 import { ListCategoriesService } from "./services/ListCategoriesService";
+import { FindCategoryByNameService } from "./services/FindCategoryByNameService";
 
 import { CategoriesRepository } from "./categories.repository";
 
@@ -19,6 +20,7 @@ import { CategoriesRepository } from "./categories.repository";
 
     CreateCategoryService,
     ListCategoriesService,
+    FindCategoryByNameService,
 
     CategoriesRepository,
   ],

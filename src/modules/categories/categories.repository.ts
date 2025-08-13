@@ -42,4 +42,17 @@ export class CategoriesRepository {
 
     return category;
   }
+
+  async findCategoryByName(name: string): Promise<Category | null> {
+    const category = await this.prisma.category.findFirst({
+      where: {
+        name: {
+          equals: name.toLowerCase(),
+          mode: "insensitive",
+        },
+      },
+    });
+
+    return category;
+  }
 }
